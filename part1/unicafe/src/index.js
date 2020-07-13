@@ -13,19 +13,33 @@ const App = () => {
 	const [good, setGood] = useState(0);
 	const [neutral, setNeutral] = useState(0);
 	const [bad, setBad] = useState(0);
+	const [history, setHistory] = useState([]);
 
 	const goodHandler = () => {
-		setGood(good + 1)
+		setHistory(history.concat(1));
+		setGood(good + 1);
 	}
 
 	const neutralHandler = () => {
-		setNeutral(neutral + 1)
+		setHistory(history.concat(0));
+		setNeutral(neutral + 1);
 	}
 
 	const badHandler = () => {
-		setBad(bad + 1)
+		setHistory(history.concat(-1));
+		setBad(bad + 1);
 	}
 
+
+	const avg = array => {
+		let sum = 0;
+		array.forEach(item => sum += item);
+		return sum / array.length;
+	}
+
+	const positiveScore = () => ((good / history.length) * 100) + '%';
+
+	
 	return (
 		<div>
 			<Heading text='Give feedback' />
@@ -36,6 +50,9 @@ const App = () => {
 			<Stats feedback='good' score={good} />
 			<Stats feedback='neutral' score={neutral} />
 			<Stats feedback='bad' score={bad} />
+			<Stats feedback='all' score={history.length} />
+			<Stats feedback='average' score={avg(history)} />
+			<Stats feedback='positive' score={positiveScore()} />
 		</div>
 		)
 }

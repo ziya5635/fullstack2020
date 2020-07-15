@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 
 
-const Heading = ({ text }) => <div><h1>{text}</h1></div>
+const Heading = ({ text }) => <h1>{text}</h1>
 
 const Button = ({ handler, text }) => <button onClick={handler}>{text}</button>
 
@@ -47,6 +47,7 @@ const App = () => {
 	const [bad, setBad] = useState(0);
 	const [history, setHistory] = useState([]);
 	const [selected, setSelected] = useState(0);
+	const [votes, setVotes] = useState(Array.apply(null, new Array(6)).map(Number.prototype.valueOf,0));
 
 	const anecdotes = [
   		'If it hurts, do it more often',
@@ -56,6 +57,7 @@ const App = () => {
   		'Premature optimization is the root of all evil.',
   		'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+
 
 	const goodHandler = () => {
 		setHistory(history.concat(1));
@@ -87,6 +89,12 @@ const App = () => {
 		setSelected(getRandomNumber());
 	}
 
+	const voteHandler = () => {
+		const copy = [...votes];
+		copy[selected] += 1;
+		setVotes(copy);
+	}
+
 	if (history.length === 0) {
 		return (
 			<div>
@@ -97,6 +105,8 @@ const App = () => {
 				<Heading text='Statistics' />
 				<p>No feedback given</p>
 				<p>{anecdotes[selected]}</p>
+				<p>has {votes[selected]} votes</p>
+				<Button handler={voteHandler} text='vote' />
 				<Button handler={anecdoteHandler} text='next anecdote' />
 			</div>
 			)
@@ -110,6 +120,8 @@ const App = () => {
 			<Heading text='Statistics' />
 			<Statistics good={good} neutral={neutral} bad={bad} history={history} avg={avg} positiveScore={positiveScore} />
 			<p>{anecdotes[selected]}</p>
+			<p>has {votes[selected]} votes</p>
+			<Button handler={voteHandler} text='vote' />
 			<Button handler={anecdoteHandler} text='next anecdote' />
 		</div>
 		)

@@ -9,6 +9,20 @@ const Button = ({ handler, text }) => <button onClick={handler}>{text}</button>
 
 const Stats = ({ feedback, score }) => <div>{feedback} {score}</div>
 
+const Statistics = props => {
+	return (
+		<div>
+			<Stats feedback='good' score={props.good} />
+			<Stats feedback='neutral' score={props.neutral} />
+			<Stats feedback='bad' score={props.bad} />
+			<Stats feedback='all' score={props.history.length} />
+			<Stats feedback='average' score={props.avg(props.history)} /> 
+			<Stats feedback='positive' score={props.positiveScore()} />
+		</div>
+		)
+
+}
+
 const App = () => {
 	const [good, setGood] = useState(0);
 	const [neutral, setNeutral] = useState(0);
@@ -47,12 +61,7 @@ const App = () => {
 			<Button handler={neutralHandler} text='neutral' />
 			<Button handler={badHandler} text='bad' />
 			<Heading text='Statistics' />
-			<Stats feedback='good' score={good} />
-			<Stats feedback='neutral' score={neutral} />
-			<Stats feedback='bad' score={bad} />
-			<Stats feedback='all' score={history.length} />
-			<Stats feedback='average' score={avg(history)} />
-			<Stats feedback='positive' score={positiveScore()} />
+			<Statistics good={good} neutral={neutral} bad={bad} history={history} avg={avg} positiveScore={positiveScore} />
 		</div>
 		)
 }

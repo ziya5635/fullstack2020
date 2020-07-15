@@ -7,17 +7,33 @@ const Heading = ({ text }) => <div><h1>{text}</h1></div>
 
 const Button = ({ handler, text }) => <button onClick={handler}>{text}</button>
 
-const Statistic = ({ text, value }) => <div>{text} {value}</div>
+const Statistic = ({ text, value }) => <td>{text} {value}</td>
 
 const Statistics = props => {
 	return (
 		<div>
-			<Statistic text='good' value={props.good} />
-			<Statistic text='neutral' value={props.neutral} />
-			<Statistic text='bad' value={props.bad} />
-			<Statistic text='all' value={props.history.length} />
-			<Statistic text='average' value={props.avg(props.history)} /> 
-			<Statistic text='positive' value={props.positiveScore()} />
+			<table>
+				<tbody>
+				<tr>
+					<Statistic text='good' value={props.good} />
+				</tr>
+				<tr>
+					<Statistic text='neutral' value={props.neutral} />
+				</tr>
+				<tr>
+					<Statistic text='bad' value={props.bad} />
+				</tr>
+				<tr>
+					<Statistic text='all' value={props.history.length} />
+				</tr>
+				<tr>
+					<Statistic text='average' value={props.avg(props.history)} /> 
+				</tr>
+				<tr>
+					<Statistic text='positive' value={props.positiveScore()} />
+				</tr>
+				</tbody>
+			</table>
 		</div>
 		)
 
@@ -61,7 +77,7 @@ const App = () => {
 				<Button handler={neutralHandler} text='neutral' />
 				<Button handler={badHandler} text='bad' />
 				<Heading text='Statistics' />
-				<p>No text given</p>
+				<p>No feedback given</p>
 			</div>
 			)
 	}
@@ -72,7 +88,9 @@ const App = () => {
 			<Button handler={neutralHandler} text='neutral' />
 			<Button handler={badHandler} text='bad' />
 			<Heading text='Statistics' />
+		
 			<Statistics good={good} neutral={neutral} bad={bad} history={history} avg={avg} positiveScore={positiveScore} />
+
 		</div>
 		)
 }

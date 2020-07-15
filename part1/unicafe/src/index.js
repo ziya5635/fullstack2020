@@ -53,7 +53,18 @@ const App = () => {
 
 	const positiveScore = () => ((good / history.length) * 100) + '%';
 
-	
+	if (history.length === 0) {
+		return (
+			<div>
+				<Heading text='Give feedback' />
+				<Button handler={goodHandler} text='good' />
+				<Button handler={neutralHandler} text='neutral' />
+				<Button handler={badHandler} text='bad' />
+				<Heading text='Statistics' />
+				<p>No feedback given</p>
+			</div>
+			)
+	}
 	return (
 		<div>
 			<Heading text='Give feedback' />

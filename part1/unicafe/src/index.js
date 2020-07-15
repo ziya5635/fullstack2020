@@ -7,17 +7,17 @@ const Heading = ({ text }) => <div><h1>{text}</h1></div>
 
 const Button = ({ handler, text }) => <button onClick={handler}>{text}</button>
 
-const Stats = ({ feedback, score }) => <div>{feedback} {score}</div>
+const Statistic = ({ text, value }) => <div>{text} {value}</div>
 
 const Statistics = props => {
 	return (
 		<div>
-			<Stats feedback='good' score={props.good} />
-			<Stats feedback='neutral' score={props.neutral} />
-			<Stats feedback='bad' score={props.bad} />
-			<Stats feedback='all' score={props.history.length} />
-			<Stats feedback='average' score={props.avg(props.history)} /> 
-			<Stats feedback='positive' score={props.positiveScore()} />
+			<Statistic text='good' value={props.good} />
+			<Statistic text='neutral' value={props.neutral} />
+			<Statistic text='bad' value={props.bad} />
+			<Statistic text='all' value={props.history.length} />
+			<Statistic text='average' value={props.avg(props.history)} /> 
+			<Statistic text='positive' value={props.positiveScore()} />
 		</div>
 		)
 
@@ -56,18 +56,18 @@ const App = () => {
 	if (history.length === 0) {
 		return (
 			<div>
-				<Heading text='Give feedback' />
+				<Heading text='Give text' />
 				<Button handler={goodHandler} text='good' />
 				<Button handler={neutralHandler} text='neutral' />
 				<Button handler={badHandler} text='bad' />
 				<Heading text='Statistics' />
-				<p>No feedback given</p>
+				<p>No text given</p>
 			</div>
 			)
 	}
 	return (
 		<div>
-			<Heading text='Give feedback' />
+			<Heading text='Give text' />
 			<Button handler={goodHandler} text='good' />
 			<Button handler={neutralHandler} text='neutral' />
 			<Button handler={badHandler} text='bad' />

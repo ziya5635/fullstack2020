@@ -10,6 +10,9 @@ const Button = ({ handler, text }) => <button onClick={handler}>{text}</button>
 const Statistic = ({ text, value }) => <td>{text} {value}</td>
 
 const Statistics = props => {
+	if (props.history.length === 0) {
+		return (<p>No feedback given</p>)
+	}
 	return (
 		<div>
 			<table>
@@ -39,7 +42,9 @@ const Statistics = props => {
 
 }
 
+const Votes = ({ votes, selected }) => <p>has {votes[selected]} votes</p>
 
+const Anecdote = ({anecdotes, selected }) => <p>{anecdotes[selected]}</p>
 
 const App = () => {
 	const [good, setGood] = useState(0);
@@ -95,34 +100,29 @@ const App = () => {
 		setVotes(copy);
 	}
 
-	if (history.length === 0) {
-		return (
-			<div>
-				<Heading text='Give text' />
-				<Button handler={goodHandler} text='good' />
-				<Button handler={neutralHandler} text='neutral' />
-				<Button handler={badHandler} text='bad' />
-				<Heading text='Statistics' />
-				<p>No feedback given</p>
-				<p>{anecdotes[selected]}</p>
-				<p>has {votes[selected]} votes</p>
-				<Button handler={voteHandler} text='vote' />
-				<Button handler={anecdoteHandler} text='next anecdote' />
-			</div>
-			)
+	const mostVoted = () => {
+		if (Math.max(...votes) === 0) {
+			return getRandomNumber();
+		}
+		return votes.indexOf(Math.max(...votes));
 	}
+
 	return (
 		<div>
-			<Heading text='Give text' />
+			<Heading text='Give feedback' />
 			<Button handler={goodHandler} text='good' />
 			<Button handler={neutralHandler} text='neutral' />
 			<Button handler={badHandler} text='bad' />
 			<Heading text='Statistics' />
 			<Statistics good={good} neutral={neutral} bad={bad} history={history} avg={avg} positiveScore={positiveScore} />
-			<p>{anecdotes[selected]}</p>
-			<p>has {votes[selected]} votes</p>
+			<Heading text='Anecdote of the day'/>
+			<Anecdote anecdotes={anecdotes} selected={selected} />
+			<Votes votes={votes} selected={selected}/>
 			<Button handler={voteHandler} text='vote' />
 			<Button handler={anecdoteHandler} text='next anecdote' />
+			<Heading text='Anecdote with most votes' />
+			<Anecdote anecdotes={anecdotes} selected={mostVoted()} />
+			<Votes votes={votes} selected={mostVoted()} />
 		</div>
 		)
 }

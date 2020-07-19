@@ -4,15 +4,22 @@ import Listing from './components/Listing';
 const App = () => {
 
   const [people, setPeople] = useState([
-      {name: 'Arto Hellas'}
+      {name: 'Arto Hellas', number:2332342}
     ]);
   const [ newName, setNewName ] = useState('');
+  
+  const [newPhone, setPhone] = useState('');
 
 
-  const inputHandler = event => {
+  const nameHandler = event => {
     const candidate = event.target.value;
     setNewName(candidate);
+  };
+
+  const phoneHandler = event => {
+    setPhone(event.target.value);
   }
+
 
   const checkNameExistence = () => people.some(person => person.name === newName);
 
@@ -22,8 +29,9 @@ const App = () => {
         alert(newName + ' is already added to phonebook');
     } else {
           event.preventDefault();
-          setPeople(people.concat({name: newName}));
+          setPeople(people.concat({name: newName, number: newPhone}));
           setNewName('');
+          setPhone('');
     }
 
   }
@@ -33,7 +41,10 @@ const App = () => {
       <h2>Phonebook</h2>
       <form>
         <div>
-          name: <input value={newName} onChange={inputHandler}/>
+          name: <input value={newName} onChange={nameHandler} />
+        </div>
+        <div>
+          number: <input value={newPhone} onChange={phoneHandler} />
         </div>
         <div>
           <button type='submit' onClick={buttonHandler}> add </button>

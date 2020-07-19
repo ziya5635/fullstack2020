@@ -7,9 +7,10 @@ const App = () => {
       {name: 'Arto Hellas', number:2332342}
     ]);
   const [ newName, setNewName ] = useState('');
-  
+
   const [newPhone, setPhone] = useState('');
 
+  const [keyword, setKeyword] = useState('');
 
   const nameHandler = event => {
     const candidate = event.target.value;
@@ -18,6 +19,10 @@ const App = () => {
 
   const phoneHandler = event => {
     setPhone(event.target.value);
+  }
+
+  const keywordHandler = event => {
+    setKeyword(event.target.value);
   }
 
 
@@ -39,6 +44,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <div>
+        filter shown with <input value={keyword} onChange={keywordHandler} />
+      </div>
+
+      <h2>Add a new</h2>
       <form>
         <div>
           name: <input value={newName} onChange={nameHandler} />
@@ -51,7 +62,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Listing people={people} />
+      <Listing people={people} keyword={keyword} />
     </div>
     )
 

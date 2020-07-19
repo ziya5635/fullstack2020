@@ -8,12 +8,24 @@ const App = () => {
     ]);
   const [ newName, setNewName ] = useState('');
 
-  const inputHandler = event => setNewName(event.target.value);
+
+  const inputHandler = event => {
+    const candidate = event.target.value;
+    setNewName(candidate);
+  }
+
+  const checkNameExistence = () => people.some(person => person.name === newName);
 
   const buttonHandler = event => {
-    event.preventDefault();
-    setPeople(people.concat({name: newName}));
-    setNewName('');
+    if (checkNameExistence()) {
+        event.preventDefault();
+        alert(newName + ' is already added to phonebook');
+    } else {
+          event.preventDefault();
+          setPeople(people.concat({name: newName}));
+          setNewName('');
+    }
+
   }
 
   return (

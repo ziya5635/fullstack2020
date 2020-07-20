@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Listing from './components/Listing';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+
 
 const App = () => {
 
@@ -45,22 +48,12 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <div>
-        filter shown with <input value={keyword} onChange={keywordHandler} />
-      </div>
+      <Filter keyword={keyword} keywordHandler={keywordHandler} />
 
       <h2>Add a new</h2>
-      <form>
-        <div>
-          name: <input value={newName} onChange={nameHandler} />
-        </div>
-        <div>
-          number: <input value={newPhone} onChange={phoneHandler} />
-        </div>
-        <div>
-          <button type='submit' onClick={buttonHandler}> add </button>
-        </div>
-      </form>
+      
+      <PersonForm newName={newName} nameHandler={nameHandler} newPhone={newPhone} phoneHandler={phoneHandler} buttonHandler={buttonHandler} />
+
       <h2>Numbers</h2>
       <Listing people={people} keyword={keyword} />
     </div>

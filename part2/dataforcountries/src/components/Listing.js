@@ -1,11 +1,19 @@
-import React from 'react'
+import React from 'react';
+import Button from './Button';
 
+const Listing = ({ selected, setCountry }) => {
 
-
-const Listing = ({ selected }) => {
-	return <div>{selected.map(item => <div key={item.name}>{item.name}</div>)}</div>
-
+		return (<div>
+					{selected.map(item => {
+						return <div key={item.name}> {item.name} <Button country={item} setCountry={setCountry}/></div>
+										}
+								)
+					}
+					
+				</div>)
+	
 }
 
 export default Listing;
-//sw
+
+

@@ -7,7 +7,7 @@ import Filter from './components/Filter';
 const App = () => {
   const [keyword, setKeyword] = useState('');
   const [countries, setCountries] = useState([]);
-
+  const [country, setCountry] = useState('');
   
 
 
@@ -18,13 +18,11 @@ const App = () => {
   }, []);
 
 
-
-  //console.log(countries);
   return(
 
     <div>
-      <Search keyword={keyword} setKeyword={setKeyword} />
-      <Filter countries={countries} keyword={keyword} />
+      <Search keyword={keyword} setKeyword={setKeyword} setCountry={setCountry}/>
+      <Filter countries={countries} keyword={keyword} country={country} setCountry={setCountry} />
       
     </div>
     )

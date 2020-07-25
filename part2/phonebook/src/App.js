@@ -37,21 +37,14 @@ const App = () => {
   const checkNameExistence = () => people.some(person => person.name === newName);
 
 
-  const savePeople = (toSave) => {
-    peopleService.create(toSave)
-    .then(res => console.log(`${res.name} created.`))
-  }
-
-
   const buttonHandler = event => {
     if (checkNameExistence()) {
         event.preventDefault();
         alert(newName + ' is already added to phonebook');
     } else {
           event.preventDefault();
-          const toSave = {name: newName, number: newPhone};
-          savePeople({name: newName, number: newPhone});
-          setPeople(people.concat(toSave));
+          peopleService.create({name: newName, number: newPhone})
+          .then(res => setPeople(people.concat(res)));
           setNewName('');
           setPhone('');
     }
@@ -69,7 +62,7 @@ const App = () => {
       <PersonForm newName={newName} nameHandler={nameHandler} newPhone={newPhone} phoneHandler={phoneHandler} buttonHandler={buttonHandler} />
 
       <h2>Numbers</h2>
-      <Listing people={people} keyword={keyword} />
+      <Listing people={people} keyword={keyword} setPeople={setPeople} />
     </div>
     )
 

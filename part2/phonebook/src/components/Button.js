@@ -2,7 +2,7 @@ import React from 'react';
 import peopleService from '../services/people';
 
 
-const Delete = ({id, setPeople, name}) => {
+const Button = ({id, setPeople, name}) => {
 	const handler = (event) => {
 		event.preventDefault();
 		if (window.confirm(`Delete ${name}?`)) {
@@ -21,4 +21,4 @@ const Delete = ({id, setPeople, name}) => {
 }
 
 
-export default Delete;
+export default Button;

@@ -10,4 +10,3 @@ const Listing = ({ people, keyword, setPeople }) => {
 
 
 export default Listing;
-//

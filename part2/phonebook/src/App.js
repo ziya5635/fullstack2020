@@ -37,13 +37,23 @@ const App = () => {
 
   const checkNameExistence = () => people.some(person => person.name === newName);
 
+
+  const savePeople = (toSave) => {
+    axios.post('http://localhost:3001/people', toSave)
+    .then(res => res.data)
+    .catch(err => console.log(err.message))
+  }
+
+
   const buttonHandler = event => {
     if (checkNameExistence()) {
         event.preventDefault();
         alert(newName + ' is already added to phonebook');
     } else {
           event.preventDefault();
-          setPeople(people.concat({name: newName, number: newPhone}));
+          const toSave = {name: newName, number: newPhone};
+          savePeople({name: newName, number: newPhone});
+          setPeople(people.concat(toSave));
           setNewName('');
           setPhone('');
     }

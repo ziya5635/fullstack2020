@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Listing from './components/Listing';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
-import axios from 'axios';
-
+import peopleService from './services/people';
 
 const App = () => {
 
@@ -16,8 +15,8 @@ const App = () => {
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001/people')
-      .then(res => setPeople(res.data))
+    peopleService.getAll()
+      .then(res => setPeople(res))
       .catch(error => console.log(error.message));
   }, []);
 
@@ -39,9 +38,8 @@ const App = () => {
 
 
   const savePeople = (toSave) => {
-    axios.post('http://localhost:3001/people', toSave)
-    .then(res => res.data)
-    .catch(err => console.log(err.message))
+    peopleService.create(toSave)
+    .then(res => console.log(`${res.name} created.`))
   }
 
 

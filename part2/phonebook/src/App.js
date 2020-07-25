@@ -20,54 +20,18 @@ const App = () => {
       .catch(error => console.log(error.message));
   }, []);
 
-  const nameHandler = event => {
-    const candidate = event.target.value;
-    setNewName(candidate);
-  };
-
-  const phoneHandler = event => {
-    setPhone(event.target.value);
-  }
-
-  const keywordHandler = event => {
-    setKeyword(event.target.value);
-  }
-
-
-  const checkNameExistence = () => people.some(person => person.name === newName);
-
-
-  const buttonHandler = event => {
-    if (checkNameExistence()) {
-        event.preventDefault();
-        alert(newName + ' is already added to phonebook');
-    } else {
-          event.preventDefault();
-          peopleService.create({name: newName, number: newPhone})
-          .then(res => setPeople(people.concat(res)));
-          setNewName('');
-          setPhone('');
-    }
-
-  }
-
   return (
     <div>
       <h2>Phonebook</h2>
-
-      <Filter keyword={keyword} keywordHandler={keywordHandler} />
-
+      <Filter keyword={keyword} setKeyword={setKeyword} />
       <h2>Add a new</h2>
-      
-      <PersonForm newName={newName} nameHandler={nameHandler} newPhone={newPhone} phoneHandler={phoneHandler} buttonHandler={buttonHandler} />
-
+      <PersonForm newName={newName} newPhone={newPhone} people={people} setPeople={setPeople} setNewName={setNewName} setPhone={setPhone} />
       <h2>Numbers</h2>
       <Listing people={people} keyword={keyword} setPeople={setPeople} />
     </div>
     )
 
 }
-
 
 
 export default App;

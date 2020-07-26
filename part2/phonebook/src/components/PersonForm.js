@@ -12,11 +12,24 @@ const PersonForm = (props) => {
   }
 
   const checkNameExistence = () => props.people.some(person => person.name === props.newName);
+  
 
   const buttonHandler = event => {
     if (checkNameExistence()) {
         event.preventDefault();
-        alert(props.newName + ' is already added to phonebook');
+        const toUpdate = props.people.find(person => person.name === props.newName);
+        if (window.confirm(props.newName + ' is already added to phonebook, replace the old number with a new one?')) {
+            peopleService.update(toUpdate.id, {...toUpdate, number:props.newPhone})
+              .then(res => {
+                console.log(`${res.name} updated.`);
+                props.setNewName('');
+                props.setPhone('');
+                props.setPeople(props.people.map(person => person.id !== res.id ? person:res));
+              })
+                .catch(err => {console.log(err.message)});
+
+        }  
+
     } else {
           event.preventDefault();
           peopleService.create({name: props.newName, number: props.newPhone})
@@ -35,7 +48,7 @@ const PersonForm = (props) => {
           number: <input value={props.newPhone} onChange={phoneHandler} />
         </div>
         <div>
-          <button type='submit' onClick={buttonHandler}> add </button>
+          <button type='submit' onClick={buttonHandler}>add</button>
         </div>
       </form>
 		)

@@ -16,7 +16,9 @@ const App = () => {
 
   const [ keyword, setKeyword ] = useState('');
 
-  const [ message, setMessage ] = useState(null);
+  const [ successMessage, setSuccessMessage ] = useState(null);
+
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     peopleService.getAll()
@@ -27,14 +29,15 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification className='error' message={message} />
+      <Notification message={successMessage} status='success'/>
+      <Notification message={errorMessage} status='error' />
       <Filter keyword={keyword} setKeyword={setKeyword} />
       <h2>Add a new</h2>
       <PersonForm newName={newName} newPhone={newPhone} people={people} 
        setPeople={setPeople} setNewName={setNewName} setPhone={setPhone}
-       setMessage={setMessage} />
+       setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage} />
       <h2>Numbers</h2>
-      <Listing people={people} keyword={keyword} setPeople={setPeople} />
+      <Listing people={people} keyword={keyword} setPeople={setPeople} setSuccessMessage={setSuccessMessage}/>
     </div>
     )
 

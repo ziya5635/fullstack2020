@@ -24,10 +24,13 @@ const PersonForm = (props) => {
                 props.setNewName('');
                 props.setPhone('');
                 props.setPeople(props.people.map(person => person.id !== res.id ? person:res));
-                props.setMessage(`${toUpdate.name} info updated successfully.`);
-                setTimeout(() => props.setMessage(null), 5000);
+                props.setSuccessMessage(`${toUpdate.name} info updated successfully.`);
+                setTimeout(() => props.setSuccessMessage(null), 5000);
               })
-                .catch(err => {console.log(err.message)});
+                .catch(err => {
+                  props.setErrorMessage(`Information of ${toUpdate.name} has already been removed from server.`);
+                  setTimeout(() => props.setErrorMessage(null), 5000);
+                });
 
         }  
 
@@ -37,8 +40,8 @@ const PersonForm = (props) => {
             .then(res => props.setPeople(props.people.concat(res)));
           props.setNewName('');
           props.setPhone('');
-          props.setMessage(`Added ${props.newName} to phonebook.`);
-          setTimeout(() => props.setMessage(null), 5000);
+          props.setSuccessMessage(`Added ${props.newName} to phonebook.`);
+          setTimeout(() => props.setSuccessMessage(null), 5000);
     }
 
   }

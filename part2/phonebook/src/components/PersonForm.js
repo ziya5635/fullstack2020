@@ -21,10 +21,11 @@ const PersonForm = (props) => {
         if (window.confirm(props.newName + ' is already added to phonebook, replace the old number with a new one?')) {
             peopleService.update(toUpdate.id, {...toUpdate, number:props.newPhone})
               .then(res => {
-                console.log(`${res.name} updated.`);
                 props.setNewName('');
                 props.setPhone('');
                 props.setPeople(props.people.map(person => person.id !== res.id ? person:res));
+                props.setMessage(`${toUpdate.name} info updated successfully.`);
+                setTimeout(() => props.setMessage(null), 5000);
               })
                 .catch(err => {console.log(err.message)});
 
@@ -36,6 +37,8 @@ const PersonForm = (props) => {
             .then(res => props.setPeople(props.people.concat(res)));
           props.setNewName('');
           props.setPhone('');
+          props.setMessage(`Added ${props.newName} to phonebook.`);
+          setTimeout(() => props.setMessage(null), 5000);
     }
 
   }

@@ -10,17 +10,28 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
+    const loggedUser = window.localStorage.getItem('loggedUser')
+    if (loggedUser) {
+      const user = JSON.parse(loggedUser)
+      setUser(user.data)
+      blogService.setToken(user.data.token)
+    }
+  }, [])
+
+  useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
   }, [])
 
+
   return (
     <div>
       <h2>blogs</h2>
-      <Login username={username} setUsername={setUsername} password={password}
-       setPassword={setPassword} setUser={setUser} user={user} />
+      <Login username={username} setUsername={setUsername} password={password} 
+       setPassword={setPassword} setUser={setUser} user={user} setBlogs={setBlogs} blogs={blogs} /> 
        <RenderBlogs user={user} blogs={blogs} />
+
     </div>
   )
 }

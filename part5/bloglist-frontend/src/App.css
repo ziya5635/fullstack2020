@@ -55,6 +55,15 @@
   font-size: 2rem;
 }
 
+.blog {
+  max-width: 15%;
+  padding-top: 10px;
+  padding-left: 2px;
+  border: solid;
+  border-width: 1px;
+  margin-bottom: 5px
+}
+
 /* continue with message colors */
 
 /*367 css*/

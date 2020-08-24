@@ -1,10 +1,13 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import blogService from '../services/blogs'
+import Togglable from './Togglable'
 
 const BlogMaker = ({setBlogs, blogs, setMessage, user}) => {
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
+
+	const blogFormRef = useRef()
 
 	const formHandler = async event => {
 		try {
@@ -16,6 +19,7 @@ const BlogMaker = ({setBlogs, blogs, setMessage, user}) => {
 			}
 			const newBlog = await blogService.create(data)
 			if (newBlog) {
+				blogFormRef.current.toggleVisibility()
 				setBlogs(blogs => blogs.concat(newBlog.data))
 				setAuthor('')
 				setUrl('')
@@ -35,24 +39,24 @@ const BlogMaker = ({setBlogs, blogs, setMessage, user}) => {
 	}
 
 	return (
-		<div>
-		<h2>create new</h2>
-		<form onSubmit={formHandler}>
-		<div>
-			<label htmlFor='title'>title</label>
-			<input type='text' id='title' name='title' value={title} onChange={e => setTitle(e.target.value)} required/>
-		</div>
-		<div>
-			<label htmlFor='author'>author</label>
-			<input type='author' id='author' name='author' value={author} onChange={e => setAuthor(e.target.value)} required/>
-		</div>
-		<div>
-			<label htmlFor='url'>url</label>
-			<input type='text' id='url' name='url' value={url} onChange={e => setUrl(e.target.value)} required/>
-		</div>
-		<button type='submit' >create</button>
-		</form>
-		</div>
+		<Togglable buttonLabel='new blog' ref={blogFormRef}>
+			<h2>create new</h2>
+			<form onSubmit={formHandler}>
+			<div>
+				<label htmlFor='title'>title</label>
+				<input type='text' id='title' name='title' value={title} onChange={e => setTitle(e.target.value)} required/>
+			</div>
+			<div>
+				<label htmlFor='author'>author</label>
+				<input type='author' id='author' name='author' value={author} onChange={e => setAuthor(e.target.value)} required/>
+			</div>
+			<div>
+				<label htmlFor='url'>url</label>
+				<input type='text' id='url' name='url' value={url} onChange={e => setUrl(e.target.value)} required/>
+			</div>
+			<button type='submit' >create</button>
+			</form>
+		</Togglable>
 		)
 }
 

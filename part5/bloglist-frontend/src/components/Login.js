@@ -1,9 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import loginService from '../services/login'
 import BlogMaker from './BlogMaker'
 import blogService from '../services/blogs'
 
-const Login = ({username, setUsername, password, setPassword, setUser, user, setBlogs, blogs, setMessage}) => {
+
+const Login = ({setUser, user, setBlogs, blogs, setMessage}) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
 	const formHandler = async event => {
 		try {
@@ -53,7 +56,7 @@ const Login = ({username, setUsername, password, setPassword, setUser, user, set
   		<div>
   			<span>{user.name} is logged in</span>
   			<button type='submit' onClick={logoutHandler}>logout</button>
-  			<BlogMaker setBlogs={setBlogs} blogs={blogs} setMessage={setMessage} user={user}/>
+  			<BlogMaker setBlogs={setBlogs} blogs={blogs} setMessage={setMessage} user={user} />
   		</div>
   		)
 

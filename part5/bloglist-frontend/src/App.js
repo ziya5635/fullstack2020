@@ -7,8 +7,8 @@ import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  //const [username, setUsername] = useState('')
+  //const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState({})
 
@@ -33,10 +33,8 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Message message={message} />
-      <Login username={username} setUsername={setUsername} password={password} 
-       setPassword={setPassword} setUser={setUser} user={user} setBlogs={setBlogs}
-        blogs={blogs} setMessage={setMessage} /> 
-       <RenderBlogs user={user} blogs={blogs} />
+      <Login setUser={setUser} user={user} setBlogs={setBlogs} blogs={blogs} setMessage={setMessage} /> 
+      <RenderBlogs user={user} blogs={blogs} />
 
     </div>
   )

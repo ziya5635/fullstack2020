@@ -1,8 +1,9 @@
 import React from 'react'
 import loginService from '../services/login'
 import BlogMaker from './BlogMaker'
+import blogService from '../services/blogs'
 
-const Login = ({username, setUsername, password, setPassword, setUser, user, setBlogs, blogs}) => {
+const Login = ({username, setUsername, password, setPassword, setUser, user, setBlogs, blogs, setMessage}) => {
 
 	const formHandler = async event => {
 		try {
@@ -10,13 +11,20 @@ const Login = ({username, setUsername, password, setPassword, setUser, user, set
 			const myStorage = window.localStorage
     		const user = await loginService.login({username, password})
     		if(user) {
-    			myStorage.setItem('loggedUser', JSON.stringify(user))
+    			myStorage.setItem('loggedUser', JSON.stringify(user.data))
+    			blogService.setToken(user.data.token)
     			setUser(user.data)
     			setUsername('')
     			setPassword('')
+    			setMessage({success: `${user.data.name} logged in successfully.`})
+    			setTimeout(() => setMessage(''), 4000)
+    			return user
+    		}else {
+    			setMessage({error: 'invalid user or password'})
+    			setTimeout(() => setMessage(''), 4000)
+    			return null
     		}
-    		return user
-		} catch(e) {
+		} catch(e) {console.log('hey')
 			console.log(e.message)
 		}
 
@@ -25,6 +33,8 @@ const Login = ({username, setUsername, password, setPassword, setUser, user, set
   	const logoutHandler = event => {
   		event.preventDefault()
   		window.localStorage.removeItem('loggedUser')
+  		setMessage({success: `${user.name} logged out successfully.`})
+    	setTimeout(() => setMessage(''), 4000)
   		setUser(null)
   	}
 
@@ -43,7 +53,7 @@ const Login = ({username, setUsername, password, setPassword, setUser, user, set
   		<div>
   			<span>{user.name} is logged in</span>
   			<button type='submit' onClick={logoutHandler}>logout</button>
-  			<BlogMaker setBlogs={setBlogs} blogs={blogs} />
+  			<BlogMaker setBlogs={setBlogs} blogs={blogs} setMessage={setMessage} user={user}/>
   		</div>
   		)
 

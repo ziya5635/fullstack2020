@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+.success {
+  border: 1px solid green;
+  background-color: #81b214;
+  border-radius: 5px;
+  text-align: center;
+  font-family:Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+}
+
+.error {
+  border: 1px solid green;
+  background-color: #ea5455;
+  border-radius: 5px;
+  text-align: center;
+  font-family:Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+}
+
+/* continue with message colors */
+
+/*367 css*/

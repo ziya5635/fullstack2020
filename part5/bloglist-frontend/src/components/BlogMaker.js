@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import blogService from '../services/blogs'
 
-const BlogMaker = ({setBlogs, blogs}) => {
+const BlogMaker = ({setBlogs, blogs, setMessage, user}) => {
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
@@ -15,11 +15,19 @@ const BlogMaker = ({setBlogs, blogs}) => {
 				title: event.target.title.value
 			}
 			const newBlog = await blogService.create(data)
-			setBlogs(blogs => blogs.concat(newBlog.data))
-			setAuthor('')
-			setUrl('')
-			setTitle('')
-			return newBlog
+			if (newBlog) {
+				setBlogs(blogs => blogs.concat(newBlog.data))
+				setAuthor('')
+				setUrl('')
+				setTitle('')
+				setMessage({success: `a new blog named ${newBlog.data.title} add by ${user.name}.`})
+				setTimeout(() => setMessage(''), 4000)
+				return newBlog
+			} else {
+				setMessage({error: 'unable to create the blog.'})
+				setTimeout(() => setMessage(''), 4000)
+				return null
+			}
 		} catch(e) {
 			console.log(e.message);
 		}

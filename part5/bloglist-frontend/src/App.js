@@ -2,19 +2,23 @@ import React, { useState, useEffect } from 'react'
 import RenderBlogs from './components/RenderBlogs'
 import blogService from './services/blogs'
 import Login from './components/Login'
+import Message from './components/Message'
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [message, setMessage] = useState({})
+
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedUser')
     if (loggedUser) {
       const user = JSON.parse(loggedUser)
-      setUser(user.data)
-      blogService.setToken(user.data.token)
+      setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -28,8 +32,10 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Message message={message} />
       <Login username={username} setUsername={setUsername} password={password} 
-       setPassword={setPassword} setUser={setUser} user={user} setBlogs={setBlogs} blogs={blogs} /> 
+       setPassword={setPassword} setUser={setUser} user={user} setBlogs={setBlogs}
+        blogs={blogs} setMessage={setMessage} /> 
        <RenderBlogs user={user} blogs={blogs} />
 
     </div>

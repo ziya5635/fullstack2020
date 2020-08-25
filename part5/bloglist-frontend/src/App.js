@@ -34,7 +34,7 @@ const App = () => {
       <h2>blogs</h2>
       <Message message={message} />
       <Login setUser={setUser} user={user} setBlogs={setBlogs} blogs={blogs} setMessage={setMessage} /> 
-      <RenderBlogs user={user} blogs={blogs} />
+      <RenderBlogs user={user} blogs={blogs} setMessage={setMessage}/>
 
     </div>
   )

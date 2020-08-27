@@ -1,22 +1,11 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import blogService from '../services/blogs'
-import userService from '../services/users'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
 	const [visible, setVisible] = useState(false)
 	const [likes, setLikes] = useState(blog.likes)
-	const [blogOwner, setBlogOwner] = useState(null)
-
-	useEffect(() => {
-		if (blog.user.id) {
-		userService.getOne(blog.user.id)
-		.then(res => {
-			setBlogOwner(res.data.username)
-		})
-		.catch(err => console.log(err.message))
-		}
-	}, [blog])
-
+	
 	const handler = event => setVisible(!visible)
 
 	const likeHandler = async event => {
@@ -37,8 +26,7 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
 		}
 	}
 
-
-	const display = {display: user.username === blogOwner ? '':'none'}
+	const display = {display: blog.user.username === user.username ? '':'none'}
 
 	const dropRemovedBlog = (blogs, id) => blogs.filter(blog => blog.id !== id)
 
@@ -83,5 +71,15 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
 
 
 }
+
+Blog.propTypes = {
+	blog: PropTypes.object.isRequired,
+	blogs: PropTypes.array.isRequired,
+	setBlogs: PropTypes.func.isRequired,
+	setMessage: PropTypes.func.isRequired,
+	user: PropTypes.object.isRequired
+}
+
+
 
 export default Blog

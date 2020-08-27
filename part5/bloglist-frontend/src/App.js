@@ -23,7 +23,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
 
@@ -31,7 +31,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Message message={message} />
-      <Login setUser={setUser} user={user} setBlogs={setBlogs} blogs={blogs} setMessage={setMessage} /> 
+      <Login setUser={setUser} user={user} setBlogs={setBlogs} blogs={blogs} setMessage={setMessage} />
       <RenderBlogs user={user} blogs={blogs} setBlogs={setBlogs} setMessage={setMessage}/>
 
     </div>

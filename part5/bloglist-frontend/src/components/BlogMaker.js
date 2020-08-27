@@ -20,7 +20,7 @@ const BlogMaker = ({ setBlogs, blogs, setMessage, user }) => {
       const newBlog = await blogService.create(data)
       if (newBlog) {
         blogFormRef.current.toggleVisibility()
-        setBlogs(() => blogs.concat(newBlog.data))//blogs as argument removed
+        setBlogs(() => blogs.concat(newBlog.data))
         setAuthor('')
         setUrl('')
         setTitle('')

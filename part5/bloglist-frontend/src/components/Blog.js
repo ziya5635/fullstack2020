@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
   const [visible, setVisible] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
 
   const handler = event => setVisible(!visible)
 
@@ -12,7 +11,6 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
     try {
       const result = await blogService.update(blog.id, { $inc : { 'likes' : 1 } })
       if (result) {
-      	setLikes(result.data.likes)
       	setBlogs(() => {
       		return blogs.map(item => item.id === blog.id ? { ...item, likes:result.data.likes }:item)
       	})
@@ -65,7 +63,7 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
       <div className='blog'>
         <div>{blog.title} <button onClick={handler}>hide</button></div>
         <div>{blog.url}</div>
-        <div>likes {likes} <button onClick={likeHandler}>like</button></div>
+        <div>likes {blog.likes} <button onClick={likeHandler}>like</button></div>
         <div>{blog.author}</div>
         <button style={display} onClick={removeHandler}>remove</button>
       </div>

@@ -55,7 +55,7 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
   if (!visible) {
     return(
 		  <div className='blog'>
-    		<span className='title'>{blog.title}</span> <span className='author'>{blog.author}</span> <button onClick={handler}>show</button>
+    		<span className='title'>{blog.title}</span> <span className='author'>{blog.author}</span> <button class='show' onClick={handler}>show</button>
  		 </div>
  		 )
   } else {

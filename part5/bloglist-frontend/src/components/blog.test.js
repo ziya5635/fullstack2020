@@ -43,7 +43,7 @@ beforeEach(() => {
 	}
 	component = render(<Blog blog={blog} blogs={blogs} setBlogs={setBlogsMock} setMessage={setMessageMock} user={user} />)
 
-	component.debug()
+	//component.debug()
 
 })
 
@@ -58,4 +58,14 @@ test('blogs render only title and author by default', () => {
 	expect(author).toHaveTextContent('Sina')
 	expect(likes).toBeNull()
 	expect(url).toBeNull()
+})
+
+test('likes and url appears once show button clicked', () => {
+	const button = component.container.querySelector('.show')
+	fireEvent.click(button)
+	const likes = component.container.querySelector('.likes')
+	expect(likes).toBeDefined()
+	const url = component.container.querySelector('.url')
+	expect(url).toBeDefined()
+	//component.debug()
 })

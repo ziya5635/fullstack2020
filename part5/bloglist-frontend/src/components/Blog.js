@@ -55,16 +55,16 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
   if (!visible) {
     return(
 		  <div className='blog'>
-    		{blog.title} {blog.author} <button onClick={handler}>show</button>
+    		<span className='title'>{blog.title}</span> <span className='author'>{blog.author}</span> <button onClick={handler}>show</button>
  		 </div>
  		 )
   } else {
     return(
       <div className='blog'>
-        <div>{blog.title} <button onClick={handler}>hide</button></div>
-        <div>{blog.url}</div>
-        <div>likes {blog.likes} <button onClick={likeHandler}>like</button></div>
-        <div>{blog.author}</div>
+        <div className='title'>{blog.title} <button onClick={handler}>hide</button></div>
+        <div className='url'>{blog.url}</div>
+        <div className='likes'>likes {blog.likes} <button onClick={likeHandler}>like</button></div>
+        <div className='author'>{blog.author}</div>
         <button style={display} onClick={removeHandler}>remove</button>
       </div>
     )

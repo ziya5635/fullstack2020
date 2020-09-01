@@ -48,7 +48,7 @@ const Login = ({ setUser, user, setBlogs, blogs, setMessage }) => {
           <input type='text' id='username' name='username' value={username} onChange= {event => setUsername(event.target.value)} autoComplete='off' autoFocus/></div>
         <div><label htmlFor='password'>password </label>
           <input type='password' id='password' name='password' value={password} onChange={event => setPassword(event.target.value)}/></div>
-        <button type='submit'>login</button>
+        <button type='submit' id='login-button'>login</button>
       </form>
 
     )

@@ -55,7 +55,7 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
   if (!visible) {
     return(
 		  <div className='blog'>
-    		<span className='title'>{blog.title}</span> <span className='author'>{blog.author}</span> <button class='show' onClick={handler}>show</button>
+    		<span className='title'>{blog.title}</span> <span className='author'>{blog.author}</span> <button className='show' onClick={handler}>show</button>
  		 </div>
  		 )
   } else {
@@ -63,7 +63,7 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
       <div className='blog'>
         <div className='title'>{blog.title} <button onClick={handler}>hide</button></div>
         <div className='url'>{blog.url}</div>
-        <div className='likes'>likes {blog.likes} <button onClick={likeHandler}>like</button></div>
+        <div className='likes'>likes {blog.likes} <button className='likeButton' onClick={likeHandler}>like</button></div>
         <div className='author'>{blog.author}</div>
         <button style={display} onClick={removeHandler}>remove</button>
       </div>

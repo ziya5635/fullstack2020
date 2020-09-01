@@ -32,4 +32,16 @@ describe('blog app', function(){
 			cy.get('.error').should('have.css', 'font-family', 'Helvetica, Arial, sans-serif')
 		})
 	})
+
+	it.only('creates a new blog', function(){
+		cy.login({username:'sina5635', password:'1367'})
+		
+		cy.contains('new blog').click()
+		cy.get('#title').type('C++')
+		cy.get('#author').type('Alexi')
+		cy.get('#url').type('www.c++.com')
+		cy.get('.form-button').click()
+		cy.get('.success')
+		cy.contains('C++ Alexi')
+	})
 })

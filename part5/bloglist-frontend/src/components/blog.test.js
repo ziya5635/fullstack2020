@@ -75,7 +75,7 @@ test('when like button cliked twice, its handledr called twice also', () => {
 	fireEvent.click(button)
 	const likeButton = component.container.querySelector('.likeButton')
 	likeButton.onclick = jest.fn() //since the handler had been defined inside the component.
-	fireEvent.click(likeButton)//fix this
+	fireEvent.click(likeButton)
 	fireEvent.click(likeButton)
 	expect(likeButton.onclick.mock.calls).toHaveLength(2)
 })

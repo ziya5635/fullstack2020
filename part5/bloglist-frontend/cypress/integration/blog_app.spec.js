@@ -19,7 +19,6 @@ describe('blog app', function(){
 			cy.get('#username').type('sina5635')
 			cy.get('#password').type('1367')
 			cy.contains('login').click()
-
 			cy.get('.success')
 		})
 
@@ -28,7 +27,6 @@ describe('blog app', function(){
 			cy.get('#username').type('sina5635')
 			cy.get('#password').type('132llsa')
 			cy.contains('login').click()
-
 			cy.get('.error')
 			cy.get('.error').should('have.css', 'font-family', 'Helvetica, Arial, sans-serif')
 		})
@@ -82,9 +80,11 @@ describe('blog app', function(){
 			const highestLikes = blogs[0]
 			const leastLikes = blogs[blogs.length-1]
 			cy.get('.blog:first').should('have.id', highestLikes.title)
+			cy.get('.blog:first').contains(highestLikes.title)
 			cy.get('.blog:first').find('.author').contains(highestLikes.author)
 
 			cy.get('.blog:last').should('have.id', leastLikes.title)
+			cy.get('.blog:last').contains(leastLikes.title)
 			cy.get('.blog:last').find('.author').contains(leastLikes.author)
 		})
 

@@ -65,7 +65,7 @@ const Blog = ({ blog, blogs, setBlogs, setMessage, user }) => {
         <div className='url'>{blog.url}</div>
         <div className='likes'>likes {blog.likes} <button className='likeButton' onClick={likeHandler}>like</button></div>
         <div className='author'>{blog.author}</div>
-        <button style={display} onClick={removeHandler}>remove</button>
+        <button className='remove-button' style={display} onClick={removeHandler}>remove</button>
       </div>
     )
   }

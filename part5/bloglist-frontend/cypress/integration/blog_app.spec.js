@@ -5,6 +5,7 @@ describe('blog app', function(){
 		cy.request('post', 'https://localhost:3003/api/test/reset')
 		cy.visit('http://localhost:3000')
 		cy.request('post', 'https://localhost:3003/api/users', {name:'sina', username:'sina5635', password:'1367'})
+		cy.request('post', 'https://localhost:3003/api/users', {name:'reza', username:'reza5635', password:'5635'})
 	})
 
 
@@ -33,7 +34,7 @@ describe('blog app', function(){
 		})
 	})
 
-	it.only('creates a new blog', function(){
+	it('creates a new blog', function(){
 		cy.login({username:'sina5635', password:'1367'})
 		
 		cy.contains('new blog').click()
@@ -44,4 +45,30 @@ describe('blog app', function(){
 		cy.get('.success')
 		cy.contains('C++ Alexi')
 	})
+
+	it('user can like a blog', function(){
+		cy.login({username: 'sina5635', password: '1367'})
+		cy.createBlog({title: 'python', url:'www.python.org', author:'Sami'})
+		cy.get('.show').click()
+		cy.get('.likeButton').click()
+		
+	})
+
+	it('the owner of the blog can delete it', function(){
+		cy.login({username: 'sina5635', password: '1367'})
+		cy.createBlog({title: 'python', url:'www.python.org', author:'Sami'})
+		cy.get('.show').click()
+		cy.get('.remove-button').should('be.visible').click()
+		cy.get('.success')
+	})
+
+	it.only('blogs can not be deleted if one is not the owner', function(){
+		cy.login({username: 'sina5635', password: '1367'})
+		cy.createBlog({title: 'python', url:'www.python.org', author:'Sami'})
+		cy.get('.logout').click()
+		cy.login({username: 'reza5635', password: '5635'})
+		cy.get('.show').click()
+		cy.get('.remove-button').should('not.be.visible')
+	})
+
 })

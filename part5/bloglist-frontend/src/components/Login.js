@@ -55,7 +55,7 @@ const Login = ({ setUser, user, setBlogs, blogs, setMessage }) => {
   	} return (
   		<div>
   			<span>{user.name} is logged in</span>
-  			<button type='submit' onClick={logoutHandler}>logout</button>
+  			<button type='submit' className='logout' onClick={logoutHandler}>logout</button>
   			<BlogMaker setBlogs={setBlogs} blogs={blogs} setMessage={setMessage} user={user} />
   		</div>
   		)

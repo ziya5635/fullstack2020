@@ -62,13 +62,32 @@ describe('blog app', function(){
 		cy.get('.success')
 	})
 
-	it.only('blogs can not be deleted if one is not the owner', function(){
+	it('blogs can not be deleted if one is not the owner', function(){
 		cy.login({username: 'sina5635', password: '1367'})
 		cy.createBlog({title: 'python', url:'www.python.org', author:'Sami'})
 		cy.get('.logout').click()
 		cy.login({username: 'reza5635', password: '5635'})
 		cy.get('.show').click()
 		cy.get('.remove-button').should('not.be.visible')
+	})
+
+	it('blogs are orderd based on their likes', function(){
+		cy.login({username: 'reza5635', password: '5635'})
+		cy.createBlogs()
+
+		cy.request('GET', 'https://localhost:3003/api/blogs')
+		.then((response) => {
+			const blogs = response.body
+			blogs.sort((a,b) => (a.likes < b.likes) ? 1 : ((b.likes < a.likes) ? -1 : 0))
+			const highestLikes = blogs[0]
+			const leastLikes = blogs[blogs.length-1]
+			cy.get('.blog:first').should('have.id', highestLikes.title)
+			cy.get('.blog:first').find('.author').contains(highestLikes.author)
+
+			cy.get('.blog:last').should('have.id', leastLikes.title)
+			cy.get('.blog:last').find('.author').contains(leastLikes.author)
+		})
+
 	})
 
 })

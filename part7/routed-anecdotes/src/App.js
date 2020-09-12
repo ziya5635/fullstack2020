@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {
-  BrowserRouter as Router,
-  Switch, Route, Link
+  Switch, Route, Link, useRouteMatch
 } from "react-router-dom"
 
 const Menu = () => {
@@ -21,7 +20,7 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <Link key={anecdote.id} to={`/anecdotes/${anecdote.id}`}><li>{anecdote.content}</li></Link>)}
     </ul>
   </div>
 )
@@ -87,6 +86,17 @@ const CreateNew = (props) => {
 
 }
 
+const Anecdote = ({ anecdote }) => {
+  return (
+    <div>
+       <h2>{anecdote.content}</h2>
+       <p>has {anecdote.votes} votes</p>
+       <p>for more info see <a href={anecdote.info}>{anecdote.info}</a></p>
+    </div>
+
+    )
+}
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -106,7 +116,9 @@ const App = () => {
   ])
 
   const [notification, setNotification] = useState('')
-
+  const match = useRouteMatch('/anecdotes/:id')
+  const anecdote = match ? anecdotes.find(item => item.id === match.params.id) : null
+  
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
@@ -127,10 +139,13 @@ const App = () => {
   }
 
   return (
-    <Router>
+    <div>
         <h1>Software anecdotes</h1>
         <Menu />
         <Switch>
+          <Route path='/anecdotes/:id'>
+            <Anecdote anecdote={anecdote}/>
+          </Route>
           <Route path='/create'>
             <CreateNew addNew={addNew} />
           </Route>
@@ -142,8 +157,7 @@ const App = () => {
           </Route>
         </Switch>
         <Footer />
-    </Router>
-
+    </div>
   )
 }
 

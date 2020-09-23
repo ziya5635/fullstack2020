@@ -72,5 +72,3 @@ const reducer = (state=[], action) => {
 }
 
 export default reducer
-
-//continue with committing the first exercise to local repo

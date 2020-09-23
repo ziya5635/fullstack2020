@@ -4,12 +4,14 @@ import userReducer from './reducers/userReducer'
 import usernameReducer from './reducers/usernameReducer'
 import passwordReducer from './reducers/passwordReducer'
 import notificationReducer from './reducers/notificationReducer'
+import usersReducer from './reducers/usersReducer'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 
 const reducer = combineReducers({
 	blogs: blogReducer,
 	user: userReducer,
+	users: usersReducer,
 	username: usernameReducer,
 	password: passwordReducer,
 	notification: notificationReducer

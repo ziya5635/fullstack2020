@@ -4,13 +4,16 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import ViewUsers from './components/ViewUsers'
+import ViewUser from './components/ViewUser'
+import Header from './components/Header'
 import { useSelector, useDispatch } from 'react-redux'
 import { initBlogs, makeBlog, updateBlog, removeBlog } from './reducers/blogReducer'
-import { initUser, loginUser, logoutUser } from './reducers/userReducer'
+import { initUser, loginUser } from './reducers/userReducer'
 import { getUsers } from './reducers/usersReducer'
 import { setUsername } from './reducers/usernameReducer'
 import { setPassword } from './reducers/passwordReducer'
 import './App.css'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 
 const App = () => {
   const blogs = useSelector(state => state.blogs)
@@ -18,7 +21,7 @@ const App = () => {
   const username = useSelector(state => state.username)
   const password = useSelector(state => state.password)
   const notification = useSelector(state => state.notification)
-
+  
   const blogFormRef = React.createRef()
 
   const dispatch = useDispatch()
@@ -65,67 +68,69 @@ const App = () => {
     }
   }
 
-  const handleLogout = () => {
-    dispatch(logoutUser())
-  }
-
   if ( !user ) {
     return (
-      <div>
-        <h2>login to application</h2>
+        <div>
+          <h2>login to application</h2>
 
-        <Notification notification={notification} />
+          <Notification notification={notification} />
 
-        <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input
-              id='username'
-              value={username}
-              onChange={({ target }) => dispatch(setUsername(target.value))}
-            />
-          </div>
-          <div>
-            password
-            <input
-              id='password'
-              value={password}
-              onChange={({ target }) => dispatch(setPassword(target.value))}
-            />
-          </div>
-          <button id='login'>login</button>
-        </form>
-      </div>
-    )
-  }
+          <form onSubmit={handleLogin}>
+            <div>
+              username
+              <input
+                id='username'
+                value={username}
+                onChange={({ target }) => dispatch(setUsername(target.value))}
+              />
+            </div>
+            <div>
+              password
+              <input
+                id='password'
+                value={password}
+                onChange={({ target }) => dispatch(setPassword(target.value))}
+              />
+            </div>
+            <button id='login'>login</button>
+          </form>
+        </div>
+      )
+    }
 
-  const byLikes = (b1, b2) => b2.likes - b1.likes
+    const byLikes = (b1, b2) => b2.likes - b1.likes
 
-  return (
-    <div>
-      <h2>blogs</h2>
+    return (
+      <Router>
+        <Switch>
+          <Route path='/users/:id'>
+            <ViewUser />
+          </Route>
+          <Route path='/users'>
+            <Header/>
+            <ViewUsers/>
+          </Route>
+          <Route path='/'>
+            <div>
+              <Header/>
+              <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+                <NewBlog createBlog={createBlog} />
+              </Togglable>
 
-      <Notification notification={notification} />
-
-      <p>
-        {user.name} logged in <button onClick={handleLogout}>logout</button>
-      </p>
-
-      <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-        <NewBlog createBlog={createBlog} />
-      </Togglable>
-
-      {blogs.sort(byLikes).map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-          own={user.username===blog.user.username}
-        />
-      )}
-      <ViewUsers/>
-    </div>
+              {blogs.sort(byLikes).map(blog =>
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  handleLike={handleLike}
+                  handleRemove={handleRemove}
+                  own={user.username===blog.user.username}
+                />
+              )}
+              
+            </div>
+          </Route>
+        </Switch>
+      </Router>
   )
 }
 

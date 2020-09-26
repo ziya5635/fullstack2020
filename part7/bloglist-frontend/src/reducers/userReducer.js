@@ -13,9 +13,11 @@ export const loginUser = (username, password) => {
 	return async dispatch => {
 		try{
 			const user = await loginService.login({username, password})
-			storage.saveUser(user)
-			dispatch({type: 'loginUser', user: user})
-			dispatch(setNotification(`${user.name} welcome back!`, 'success'))
+			if (user) {
+				storage.saveUser(user)
+				dispatch({type: 'loginUser', user: user})
+				dispatch(setNotification(`${user.name} welcome back!`, 'success'))
+			}
 		}catch(error){
 			dispatch(setNotification('wrong username/password', 'error'))
 			console.log(error.message)

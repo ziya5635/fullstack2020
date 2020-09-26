@@ -1,1 +1,17 @@
 
+
+
+.navbar {
+	background-color: #709fb0;
+	padding: .5em;
+	border-radius: .2em;
+}
+
+.navbar > a{
+	text-decoration: none;
+	padding: .5em 1em;
+}
+
+.navbar > * {
+	display: inline;
+}

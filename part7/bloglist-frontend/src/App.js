@@ -6,7 +6,7 @@ import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import ViewUsers from './components/ViewUsers'
 import ViewUser from './components/ViewUser'
-import Header from './components/Header'
+import Navbar from './components/Navbar'
 import { useSelector, useDispatch } from 'react-redux'
 import { initBlogs, makeBlog, updateBlog, removeBlog } from './reducers/blogReducer'
 import { initUser, loginUser } from './reducers/userReducer'
@@ -103,6 +103,8 @@ const App = () => {
 
     return (
       <Router>
+        <Notification notification={notification} />
+        <Navbar/>
         <Switch>
           <Route path='/blogs/:id'>
             <ViewBlog />
@@ -111,12 +113,11 @@ const App = () => {
             <ViewUser />
           </Route>
           <Route path='/users'>
-            <Header/>
             <ViewUsers/>
           </Route>
           <Route path='/'>
+            <h2>blog app</h2>
             <div>
-              <Header/>
               <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
                 <NewBlog createBlog={createBlog} />
               </Togglable>

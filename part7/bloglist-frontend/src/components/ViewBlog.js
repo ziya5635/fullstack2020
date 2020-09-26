@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from './Header'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateBlog } from '../reducers/blogReducer'
 import { useParams } from 'react-router-dom'
@@ -21,7 +20,6 @@ const ViewBlog = () => {
 
 	return (
 		<div>
-			<Header/>
 			<h1>{selected.title}</h1>
 			<div><a href={selected.url}>{selected.url}</a></div>
 			<div>{selected.likes} likes <button onClick={handleLike}>like</button></div>

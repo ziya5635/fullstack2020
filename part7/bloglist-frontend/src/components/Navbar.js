@@ -1,29 +1,33 @@
 import React from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import Notification from './Notification'
 import {logoutUser} from '../reducers/userReducer'
-import {useHistory} from 'react-router-dom'
 
 
-const Header = () => {
-	const dispatch = useDispatch()
-	const notification = useSelector(state => state.notification)
+const Navbar = () => {
 	const user = useSelector(state => state.user)
+	const dispatch = useDispatch()
 	const history = useHistory()
 
 	const handleLogout = () => {
     	dispatch(logoutUser())
     	history.push('/')
  	}
- 	
-	return (<div>
-			  <h2>blogs</h2>
-              <Notification notification={notification} />
-              <p>
+
+	return (
+		<nav className='navbar'>
+			<Link to='/'>blogs</Link>
+			<Link to='/users'>users</Link>
+			 <p>
                 {user.name} logged in <button onClick={handleLogout}>logout</button>
-              </p>
-			</div>
+             </p>
+		</nav>
 		)
 }
 
-export default Header
+export default Navbar
+
+/*
+
+
+*/

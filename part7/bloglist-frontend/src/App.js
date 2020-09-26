@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Blog from './components/Blog'
+import ViewBlog from './components/ViewBlog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
@@ -103,6 +104,9 @@ const App = () => {
     return (
       <Router>
         <Switch>
+          <Route path='/blogs/:id'>
+            <ViewBlog />
+          </Route>
           <Route path='/users/:id'>
             <ViewUser />
           </Route>

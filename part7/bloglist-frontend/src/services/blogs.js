@@ -29,4 +29,14 @@ const remove = (id) => {
   return request.then(response => response.data)
 }
 
-export default { getAll, create, update, remove }
+const addComments = async (id, comment) => {
+  try{
+      const res = await axios.post(`${baseUrl}/${id}`, {comment}, getConfig())
+      //console.log('/////',res)// no response returned
+      return res.data
+    }catch(error){
+      console.log(error.message)
+    }
+}
+
+export default { getAll, create, update, remove, addComments }

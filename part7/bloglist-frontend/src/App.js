@@ -10,7 +10,7 @@ import Navbar from './components/Navbar'
 import { useSelector, useDispatch } from 'react-redux'
 import { initBlogs, makeBlog, updateBlog, removeBlog } from './reducers/blogReducer'
 import { initUser, loginUser } from './reducers/userReducer'
-import { getUsers } from './reducers/usersReducer'
+import { getUsers, addBlogToUser } from './reducers/usersReducer'
 import { setUsername } from './reducers/usernameReducer'
 import { setPassword } from './reducers/passwordReducer'
 import './App.css'
@@ -49,7 +49,8 @@ const App = () => {
   const createBlog = async (blog) => {
     try {
       blogFormRef.current.toggleVisibility()
-      dispatch(makeBlog(blog))
+      const newBlog = await dispatch(makeBlog(blog))
+      dispatch(addBlogToUser(newBlog))
     } catch(exception) {
       console.log(exception)
     }
@@ -105,6 +106,7 @@ const App = () => {
       <Router>
         <Notification notification={notification} />
         <Navbar/>
+        <h2>blog app</h2>
         <Switch>
           <Route path='/blogs/:id'>
             <ViewBlog />
@@ -116,7 +118,6 @@ const App = () => {
             <ViewUsers/>
           </Route>
           <Route path='/'>
-            <h2>blog app</h2>
             <div>
               <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
                 <NewBlog createBlog={createBlog} />

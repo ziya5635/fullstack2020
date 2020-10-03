@@ -1,6 +1,5 @@
 import blogService from '../services/blogs'
 
-
 export const initBlogs = () => {
 	return async dispatch => {
 		try{
@@ -19,8 +18,9 @@ export const makeBlog = data => {
 			const blog = await blogService.create(data)
 			dispatch({
 				type: 'createBlog',
-				data: {...blog, likes: 0}
+				data: {...blog, likes: 0, comments: []}
 			})
+			return blog
 		}catch(error){
 			console.log(error.message)
 		}
@@ -42,6 +42,10 @@ export const updateBlog = data => {
 	}
 }
 
+export const setBlogComment = blog => {
+	return {type: 'setBlogComment', blog: blog}
+}
+
 export const removeBlog = id => {
 	return async dispatch => {
 		try{
@@ -52,6 +56,7 @@ export const removeBlog = id => {
 		}
 	}
 }
+
 
 
 const reducer = (state=[], action) => {
@@ -66,6 +71,11 @@ const reducer = (state=[], action) => {
 			return state.map(item => item.id === updated.id ?  { ...item, likes: item.likes + 1 } : item)
 		case('removeBlog'):
 			return state.filter(item => item.id !== action.id)
+		case('setBlogComment'):
+			const id = action.blog.id
+			const comments = action.blog.comments
+			const res = state.map(item => item.id === id ? {...item, comments: comments} : item)
+			return res
 		default:
 			return state
 	}

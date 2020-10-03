@@ -2,19 +2,21 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateBlog } from '../reducers/blogReducer'
 import { useParams } from 'react-router-dom'
+import ViewComments from './ViewComments'
 
 const ViewBlog = () => {
 	const dispatch = useDispatch()
 	const id = useParams().id
 	const blogs = useSelector(state => state.blogs)
 	const selected = blogs.find(blog => blog.id === id)
-
 	const users = useSelector(state => state.users)
+
 	const blogMaker = users.map(user => user.blogs.find(blog => blog.id === selected.id))
 	
 	const handleLike = async () => {
     	const blogToLike = blogs.find(b => b.id === id)
-    	const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
+    	const commentsId = blogToLike.comments.map(comment => comment.id)
+    	const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id, comments: commentsId }
     	dispatch(updateBlog(likedBlog))
   	}
 
@@ -24,6 +26,7 @@ const ViewBlog = () => {
 			<div><a href={selected.url}>{selected.url}</a></div>
 			<div>{selected.likes} likes <button onClick={handleLike}>like</button></div>
 			<div>added by {blogMaker[0].author}</div>
+			<ViewComments blog={selected}/>
 		</div>
 		)
 }

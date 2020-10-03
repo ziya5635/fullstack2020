@@ -2,6 +2,7 @@ import storage from '../utils/storage'
 import loginService from '../services/login'
 import { setNotification } from './notificationReducer'
 
+
 export const initUser = () => {
 	return dispatch => {
 		const user = storage.loadUser()
@@ -17,9 +18,11 @@ export const loginUser = (username, password) => {
 				storage.saveUser(user)
 				dispatch({type: 'loginUser', user: user})
 				dispatch(setNotification(`${user.name} welcome back!`, 'success'))
+			}else{
+				dispatch({type: 'error'})
+				dispatch(setNotification('wrong username/password', 'error'))
 			}
 		}catch(error){
-			dispatch(setNotification('wrong username/password', 'error'))
 			console.log(error.message)
 		}
 	}
@@ -32,6 +35,7 @@ export const logoutUser = () => {
 	}
 }
 
+
 const reducer = (state=null, action) => {
 	switch(action.type){
 		case('initUser'):
@@ -40,6 +44,8 @@ const reducer = (state=null, action) => {
 			return action.user
 		case('logoutUser'):
 			return action.user
+		case('error'):
+			return null
 		default:
 			return state
 	}

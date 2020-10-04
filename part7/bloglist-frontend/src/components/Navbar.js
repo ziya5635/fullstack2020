@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {logoutUser} from '../reducers/userReducer'
-
+import { Button } from '../styles.js'
 
 const Navbar = () => {
 	const user = useSelector(state => state.user)
@@ -19,7 +19,7 @@ const Navbar = () => {
 			<Link to='/'>blogs</Link>
 			<Link to='/users'>users</Link>
 			 <p>
-                {user.name} logged in <button onClick={handleLogout}>logout</button>
+                {user.name} logged in <Button onClick={handleLogout}>logout</Button>
              </p>
 		</nav>
 		)

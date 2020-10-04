@@ -14,7 +14,9 @@ import { getUsers, addBlogToUser } from './reducers/usersReducer'
 import { setUsername } from './reducers/usernameReducer'
 import { setPassword } from './reducers/passwordReducer'
 import './App.css'
+import {Button, Input, GlobalStyle} from './styles.js'
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
+
 
 const App = () => {
   const blogs = useSelector(state => state.blogs)
@@ -73,6 +75,7 @@ const App = () => {
   if ( !user ) {
     return (
         <div>
+          <GlobalStyle/>
           <h2>login to application</h2>
 
           <Notification notification={notification} />
@@ -88,13 +91,13 @@ const App = () => {
             </div>
             <div>
               password
-              <input
+              <Input
                 id='password'
                 value={password}
                 onChange={({ target }) => dispatch(setPassword(target.value))}
               />
             </div>
-            <button id='login'>login</button>
+            <Button id='login'>login</Button>
           </form>
         </div>
       )
@@ -104,6 +107,7 @@ const App = () => {
 
     return (
       <Router>
+        <GlobalStyle/>
         <Notification notification={notification} />
         <Navbar/>
         <h2>blog app</h2>
@@ -141,3 +145,5 @@ const App = () => {
 }
 
 export default App
+
+//<button id='login'>login</button>

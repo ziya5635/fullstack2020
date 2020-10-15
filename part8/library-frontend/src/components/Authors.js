@@ -1,10 +1,11 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
 import {ALL_AUTHORS} from '../queries.js'
+import BirthYear from './BirthYear.js'
 
 const Authors = (props) => {
   const res = useQuery(ALL_AUTHORS)
-  console.log(res.data)
+
   if (!props.show) {
     return null
   }
@@ -38,7 +39,7 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-
+      <BirthYear/>
     </div>
   )
 }

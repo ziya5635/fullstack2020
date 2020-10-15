@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { SET_BORN, ALL_AUTHORS } from '../queries.js'
 
 const BirthYear = () => {
@@ -10,6 +10,8 @@ const BirthYear = () => {
 		refetchQueries: [{query: ALL_AUTHORS}], onError: error => console.log(error.message)
 	})
 
+	const authors = useQuery(ALL_AUTHORS).data.allAuthors
+
 	useEffect(() => {
 		if (result.data && result.data.editAuthor === null) {
 			console.log('person not found.')
@@ -18,8 +20,6 @@ const BirthYear = () => {
 
 	const submitHandler = event => {
 		event.preventDefault()
-		console.log(born)
-		console.log(name)
 		const setBornTo = parseInt(born)
 		setYear({variables: {name, setBornTo}})
 	}
@@ -39,10 +39,9 @@ const BirthYear = () => {
 		<h2>set birth year</h2>
 		<form onSubmit= {submitHandler}>
 			<div>
-				<label>
-					name:
-					<input name='name' value={name} onChange={nameHandler}/>
-				</label>
+				<select value={name} onChange={nameHandler}>
+					{authors.map(author => <option key={author.name} name='name' value={author.name}>{author.name}</option>)}
+				</select>
 			</div>
 			<div>
 				<label>

@@ -1,10 +1,11 @@
 require('dotenv').config()
 const Book = require('../models/book')
 const Author = require('../models/author')
+const { UserInputError } = require('apollo-server')
 
 const resolvers = {
   Mutation: {
-    addBook: async(root, args) => {console.log('in addBook')
+    addBook: async(root, args) => {
       const author_name = args.author;console.log(args)
       try{
         let author = await Author.findOne({name: author_name})
@@ -12,15 +13,18 @@ const resolvers = {
           author = await Author.create({name: args.author})
         }
         await Book.create({...args, author: author._id})
-        const book = await Book.findOne({title: args.title}).populate('author');console.log(book)
+        const book = await Book.findOne({title: args.title}).populate('author')
         return book
 
-      }catch(error){console.log('oops')
+      }catch(error){
+        if (error.name == 'ValidationError') {
+          throw new UserInputError(error.message, {invalidArgs: args})
+        }
         console.log(error.message)
         return null
       }
     },
-    editAuthor: async(root, args) => {
+    editAuthor: async(root, args) => {console.log('in edit')
       try{
         const author = await Author.findOne({name: args.name})
         if (author) {
@@ -28,6 +32,9 @@ const resolvers = {
           return updated_author
         }
       }catch(error){
+        if (error.name == 'ValidationError') {
+          throw new UserInputError(error.message, {invalidArgs: args})
+        }
         console.log(error.message)
         return null
       }

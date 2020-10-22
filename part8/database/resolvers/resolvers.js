@@ -1,12 +1,44 @@
 require('dotenv').config()
 const Book = require('../models/book')
 const Author = require('../models/author')
+const User = require('../models/user')
 const { UserInputError } = require('apollo-server')
+const jwt = require('jsonwebtoken')
+
+const JWT_SECRET = process.env.JWT_SECRET
 
 const resolvers = {
   Mutation: {
-    addBook: async(root, args) => {
-      const author_name = args.author;console.log(args)
+    createUser: async(root, args) => {
+      try{
+        const new_user = await User.create({username: args.username})
+      }catch(error){
+        if (error.name == 'ValidationError') {
+          throw new UserInputError(error.message, {invalidArgs: args})
+        }
+        console.log(error.message)
+        return null
+      }
+      
+    },
+    login: async(root, args) => {
+      try{
+        const user = await User.findOne({username: args.username})
+        if (!user || args.password != 'secret') {
+          throw new UserInputError("wrong creditials!")
+        }
+        const token = jwt.sign({username: user.username, id: user._id}, JWT_SECRET)
+        return {value: token}
+
+      }catch(error){
+        console.log(error.message)
+      }
+    },
+    addBook: async(root, args, context) => {
+      const author_name = args.author
+      if (!context.currentUser) {
+        return {error: 'User need to be logged in.'}
+      }
       try{
         let author = await Author.findOne({name: author_name})
         if (!author) {
@@ -24,7 +56,10 @@ const resolvers = {
         return null
       }
     },
-    editAuthor: async(root, args) => {console.log('in edit')
+    editAuthor: async(root, args, context) => {
+      if (!context.currentUser) {
+        return {error: 'User need to be logged in.'}
+      }
       try{
         const author = await Author.findOne({name: args.name})
         if (author) {
@@ -42,6 +77,9 @@ const resolvers = {
   },
 
   Query: {
+    me: (root, args, context) => {
+      return context.currentUser
+    },
     bookCount: async() => {
       try{
         const res = await Book.count({})
@@ -58,7 +96,7 @@ const resolvers = {
         console.log(message.error)
       }
     },
-    allBooks: (root, args) => {//no touch// continue with 8.14
+    allBooks: (root, args) => {//not touched
       if (args.author && args.genre) {
         let res = books
         res = books.filter(book => book.author === args.author)

@@ -20,11 +20,11 @@ const resolvers = {
         return null
       }
     },
-    editAuthor: async(root, args) => {console.log(args)
+    editAuthor: async(root, args) => {
       try{
         const author = await Author.findOne({name: args.name})
         if (author) {
-          const updated_author = await Author.update({name: args.name}, {$set: {'born': args.setBornTo}})
+          const updated_author = await Author.findOneAndUpdate({name: args.name}, {$set: {'born': args.setBornTo}}, {new: true})
           return updated_author
         }
       }catch(error){
@@ -51,7 +51,7 @@ const resolvers = {
         console.log(message.error)
       }
     },
-    allBooks: (root, args) => {//no touch
+    allBooks: (root, args) => {//no touch// continue with 8.14
       if (args.author && args.genre) {
         let res = books
         res = books.filter(book => book.author === args.author)

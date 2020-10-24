@@ -3,7 +3,8 @@ const { ApolloServer, UserInputError } = require('apollo-server')
 const typeDefs = require('./types/types')
 const resolvers = require('./resolvers/resolvers')
 const mongoose = require('mongoose')
-
+const User = require('./models/user')
+const jwt = require('jsonwebtoken')
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {console.log('connected to mongodb.')})
@@ -20,9 +21,9 @@ const server = new ApolloServer({
     const auth = req ? req.headers.authorization : null
     if (auth && auth.toLowerCase().startWith('bearer ')) {
       const decodedToken = jwt.verify(auth.subString(7), JWT_SECRET)
+      const currentUser = User.findById(decodedToken.id)
+      return { currentUser }
     }
-    const currentUser = User.findById(decodedToken.id)
-    return { currentUser }
   }
 })
 

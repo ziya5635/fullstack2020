@@ -2,7 +2,7 @@ require('dotenv').config()
 const Book = require('../models/book')
 const Author = require('../models/author')
 const User = require('../models/user')
-const { UserInputError } = require('apollo-server')
+const { UserInputError, AuthenticationError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 
 const JWT_SECRET = process.env.JWT_SECRET
@@ -37,7 +37,7 @@ const resolvers = {
     addBook: async(root, args, context) => {
       const author_name = args.author
       if (!context.currentUser) {
-        return {error: 'User need to be logged in.'}
+        throw new AuthenticationError("login required!")
       }
       try{
         let author = await Author.findOne({name: author_name})
@@ -58,7 +58,7 @@ const resolvers = {
     },
     editAuthor: async(root, args, context) => {
       if (!context.currentUser) {
-        return {error: 'User need to be logged in.'}
+        throw new AuthenticationError("login required!")
       }
       try{
         const author = await Author.findOne({name: args.name})
@@ -96,17 +96,21 @@ const resolvers = {
         console.log(message.error)
       }
     },
-    allBooks: (root, args) => {//not touched
-      if (args.author && args.genre) {
-        let res = books
-        res = books.filter(book => book.author === args.author)
-        return res.filter(book => book.genres.includes(args.genre))
-      }else if (args.author) {
-        return books.filter(book => book.author === args.author)
-      }else if (args.genre){
-        return books.filter(book => book.genres.includes(args.genre))
-      }else{
-        return books
+    allBooks: async(root, args) => {
+      try{
+        const books = await Book.find({}).populate('author')
+        if (args.author && args.genre) {
+          const res = books.filter(book.author.name === args.author)
+          return res.filter(book => book.genres.includes(args.genre))
+        }else if (args.author) {
+          return books.filter(book => book.author.name === args.author)
+        }else if (args.genre) {
+          return books.filter(book => book.genres.includes(args.genre))
+        }else{
+          return books
+        }
+      }catch(error){
+        console.log(error.message)
       }
     },
     allAuthors: async() => {

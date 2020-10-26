@@ -42,7 +42,7 @@ module.exports = gql`
 
     login(
       username: String!
-      password: String
+      password: String!
     ): Token
     
     addBook(

@@ -132,13 +132,13 @@ const resolvers = {
       if (!author) {
         author = {name: args.author, id: uuid()}
         authors = authors.concat(author)
-      }console.log(authors)
+      }
       const book = { ...args, id: uuid() }
       books = books.concat(book)
       return book
     },
 
-    editAuthor: (root, args) => {
+    editAuthor: (root, args) => {console.log('name:', args.name);console.log('born:', args.setBornTo)
       let author = authors.find(item => item.name === args.name)
       if (author) {
         author.born = args.setBornTo

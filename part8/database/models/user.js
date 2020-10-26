@@ -7,7 +7,11 @@ const schema = mongoose.Schema({
 		required: true,
 		minlength: 4,
 		unique: true
-	}
+	},
+	  	favoriteGenre: {
+	  		type: String,
+	  		required: true
+	  	}
 })
 
 schema.plugin(uniqueValidator)

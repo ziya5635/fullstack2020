@@ -11,7 +11,8 @@ const resolvers = {
   Mutation: {
     createUser: async(root, args) => {
       try{
-        const new_user = await User.create({username: args.username})
+        const new_user = await User.create({username: args.username, favoriteGenre: args.favoriteGenre})
+        return new_user
       }catch(error){
         if (error.name == 'ValidationError') {
           throw new UserInputError(error.message, {invalidArgs: args})
@@ -25,7 +26,7 @@ const resolvers = {
       try{
         const user = await User.findOne({username: args.username})
         if (!user || args.password != 'secret') {
-          throw new UserInputError("wrong creditials!")
+          throw new UserInputError("wrong credentials!")
         }
         const token = jwt.sign({username: user.username, id: user._id}, JWT_SECRET)
         return {value: token}
@@ -56,7 +57,7 @@ const resolvers = {
         return null
       }
     },
-    editAuthor: async(root, args, context) => {
+    editAuthor: async(root, args, context) => {console.log(context.currentUser)
       if (!context.currentUser) {
         throw new AuthenticationError("login required!")
       }

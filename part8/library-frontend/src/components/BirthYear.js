@@ -20,13 +20,18 @@ const BirthYear = () => {
 
 	const submitHandler = event => {
 		event.preventDefault()
-		const setBornTo = parseInt(born)
-		setYear({variables: {name, setBornTo}})
+		if (name) {
+			const setBornTo = parseInt(born)
+			setYear({variables: {name, setBornTo}})
+			//console.log(result.data.editAuthor)
+		}
+
 	}
 
 	const nameHandler = event => {
 		event.preventDefault()
 		setName(event.target.value)
+
 	}
 
 	const bornHandler = event => {
@@ -40,6 +45,7 @@ const BirthYear = () => {
 		<form onSubmit= {submitHandler}>
 			<div>
 				<select value={name} onChange={nameHandler}>
+					<option key={'select'} name='select' value=''>select</option>
 					{authors.map(author => <option key={author.name} name='name' value={author.name}>{author.name}</option>)}
 				</select>
 			</div>

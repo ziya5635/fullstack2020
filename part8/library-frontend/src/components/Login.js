@@ -3,7 +3,7 @@ import { LOGIN } from '../queries'
 import { useMutation } from '@apollo/client'
 
 
-const Login = ({ setToken, show }) => {
+const Login = ({ setToken, show, setPage }) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [login, result] = useMutation(LOGIN, {onError: error => error.graphQLErrors[0].message})
@@ -17,10 +17,12 @@ const Login = ({ setToken, show }) => {
 	}, [result.data, setToken])
 
 	const formHandler = event => {
-		event.preventDefault();console.log(username, password)
+		event.preventDefault()
 		login({variables: {username, password}})
 		setUsername('')
 		setPassword('')
+		setPage('authors')
+
 	}
 	const nameHandler = event => {
 		event.preventDefault()

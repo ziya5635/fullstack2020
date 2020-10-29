@@ -57,7 +57,7 @@ const resolvers = {
         return null
       }
     },
-    editAuthor: async(root, args, context) => {console.log(context.currentUser)
+    editAuthor: async(root, args, context) => {
       if (!context.currentUser) {
         throw new AuthenticationError("login required!")
       }

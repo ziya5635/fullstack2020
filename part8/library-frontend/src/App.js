@@ -10,7 +10,7 @@ import { ALL_BOOKS } from './queries.js'
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
-  const [getBooks, {data}] = useLazyQuery(ALL_BOOKS)
+  const [getBooks, {data}] = useLazyQuery(ALL_BOOKS, {fetchPolicy: 'network-only'})
   const [user, setUser] = useState(null)
   const [favorites, setFavorites] = useState([])
 

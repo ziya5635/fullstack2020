@@ -1,24 +1,28 @@
 import React from 'react'
-import { ALL_BOOKS, USER } from '../queries.js'
+import { USER } from '../queries.js'
 import { useQuery } from '@apollo/client'
 
-const Recommend = ({ show }) => {
-	const res_books = useQuery(ALL_BOOKS)
+const Recommend = ({ show, favorites, setUser}) => {
+	//const [books, setBooks] = useState([])
+	//const res_books = useQuery(ALL_BOOKS)
 	const res_user = useQuery(USER)
-	if (res_books.loading) {return <div>...loading</div>}
+	//if (res_books.loading) {return <div>...loading</div>}
 	if (res_user.loading) {return <div>...loading</div>}
 
-	const books = res_books.data.allBooks
+	//const books = res_books.data.allBooks
 	const user = res_user.data.me
+	setUser(user)
 	
 	if (!show) {return null}
-	const user_favorites = []
+	//const user_favorites = []
+	const user_favorites = favorites
+	/*
 	books.forEach(book => {
 		const res = book.genres.filter(item => item === user.favoriteGenre)
 		if (res.length) {
 			user_favorites.push(book)
 		}
-	})
+	})*/
 
 	return (
 		<div>

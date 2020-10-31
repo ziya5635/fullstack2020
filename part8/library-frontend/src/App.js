@@ -4,8 +4,8 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 import Recommend from './components/Recommend'
-import { useApolloClient, useLazyQuery } from '@apollo/client'
-import { ALL_BOOKS } from './queries.js'
+import { useApolloClient, useLazyQuery, useSubscription } from '@apollo/client'
+import { ALL_BOOKS, BOOK_ADDED } from './queries.js'
 
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -26,6 +26,27 @@ const App = () => {
   useEffect(() => {
     setToken(localStorage.getItem('phonenumbers-user-token'))
   }, [setToken])
+
+  const updateCacheWith = addedBook => {
+    const includedIn = (set, object) => {
+      return set.map(item => item.id).includes(addedBook.id)
+    }
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data : {allBooks: dataInStore.allBooks.concat(addedBook)}
+      })
+    }
+  }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({subscriptionData}) => {
+      const addedBook = subscriptionData.data.bookAdded
+      updateCacheWith(addedBook)
+    }
+  })
 
   const logout = event => {
     event.preventDefault()

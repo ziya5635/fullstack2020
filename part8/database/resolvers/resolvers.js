@@ -42,13 +42,13 @@ const resolvers = {
         throw new AuthenticationError("login required!")
       }
       try{
-        let author = await Author.findOne({name: author_name})
+        let author = await Author.findOneAndUpdate({name: author_name}, {$inc: {bookCount: 1}})
         if (!author) {
-          author = await Author.create({name: args.author})
+          author = await Author.create({name: args.author, bookCount: 1})
         }
         await Book.create({...args, author: author._id})
         const book = await Book.findOne({title: args.title}).populate('author')
-        psub.publish('BOOK_ADDED', {bookAdded: book})
+        pubsub.publish('BOOK_ADDED', {bookAdded: book})
         return book
 
       }catch(error){
@@ -119,15 +119,7 @@ const resolvers = {
     allAuthors: async() => {
       try{
         const authors = await Author.find({})
-        const books = await Book.find({}).populate('author')
-        const author_books = authors.map(author => {
-          return books.filter(book => book.author.name === author.name)
-        })
-        non_empty_author_books = author_books.filter(book => book.length > 0)
-        return non_empty_author_books.map(book => {
-          const born = authors.find(author => author.name === book[0].author.name).born
-          return {name: book[0].author.name, bookCount: book.length, born: born}
-        })
+        return authors
       }catch(error){
         console.log(error.message)
       }

@@ -2,7 +2,7 @@ import React from 'react'
 //import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 import { filter } from '../reducers/filterReducer'
-
+//shomare ro az rahim gholam rezaee gereft, talebian zang zad
 const Filter = (props) => {
   //const dispatch = useDispatch()
   const handleChange = (event) => {

@@ -41,5 +41,15 @@ const calculateExercises = (days:number[], goal:number) : Stats => {
 	return res
 }
 
-calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2);
+
+try {
+	const goal : number = Number(process.argv[2]);
+	const days : number[] = process.argv.slice(3).map(num => Number(num))
+	if(process.argv.length != 10 || !goal){
+		throw new Error("parameters not valid.");
+	}
+	calculateExercises(days, goal)
+}catch(error){
+	console.log(error.message)
+}
 

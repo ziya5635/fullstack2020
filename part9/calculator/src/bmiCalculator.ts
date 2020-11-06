@@ -1,9 +1,7 @@
 
-
-
 const calculateBmi = (height: number, weight: number) : void => {
-	const heightToMeter = height / 100;
-	const res = weight / (heightToMeter**2);
+	const heightToMeter:number = height / 100;
+	const res:number = weight / (heightToMeter**2);
 	if (res < 18.5) {
 		console.log('underwight');
 	}else if (res >=18.5 && res < 25) {
@@ -15,4 +13,14 @@ const calculateBmi = (height: number, weight: number) : void => {
 	}
 }
 
-calculateBmi(180, 74);
+
+try {
+	const height:number = Number(process.argv[2]);
+	const weight:number = Number(process.argv[3]);
+	if(process.argv.length != 4 || !height || !weight){
+		throw new Error('invalid parameters.');
+	}
+	calculateBmi(height, weight);
+}catch(error){
+	console.log(error.message)
+}

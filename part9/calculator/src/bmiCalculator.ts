@@ -21,7 +21,7 @@ export const calculateBmi = (height: number, weight: number) : Bmi => {
 		console.log('obese');
 		return {height: height, weight: weight, bmi:'obese'};
 	}
-}
+};
 
 /*
 try {

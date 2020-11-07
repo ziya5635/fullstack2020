@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import * as _ from 'lodash';
 
 interface Stats {
 	periodLength : number;
@@ -16,8 +16,8 @@ const calculateExercises = (days:number[], goal:number) : Stats => {
 	const target : number = goal;
 	const success : boolean = (_.mean(days) >= target ? true:false);
 	const average : number = _.mean(days);
-	let rating : number = NaN;
-	let ratingDescription : string = '';
+	let rating  = NaN;
+	let ratingDescription  = '';
 	if (average >= target) { 
 		rating = 3;
 		ratingDescription = 'Great job.';
@@ -36,20 +36,20 @@ const calculateExercises = (days:number[], goal:number) : Stats => {
 		rating: rating,
 		target: target,
 		ratingDescription: ratingDescription
-	}
-	console.log(res)
-	return res
-}
+	};
+	console.log(res);
+	return res;
+};
 
 
 try {
-	const goal : number = Number(process.argv[2]);
-	const days : number[] = process.argv.slice(3).map(num => Number(num))
+	const goal  = Number(process.argv[2]);
+	const days : number[] = process.argv.slice(3).map(num => Number(num));
 	if(process.argv.length != 10 || !goal){
 		throw new Error("parameters not valid.");
 	}
-	calculateExercises(days, goal)
+	calculateExercises(days, goal);
 }catch(error){
-	console.log(error.message)
+	console.log(error.message);
 }
 

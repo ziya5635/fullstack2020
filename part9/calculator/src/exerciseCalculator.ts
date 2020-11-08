@@ -10,7 +10,15 @@ interface Stats {
 	average: number;
 }
 
-const calculateExercises = (days:number[], goal:number) : Stats => {
+interface BadType {
+	error: string;
+}
+
+
+export const calculateExercises = (days:number[], goal:number) : Stats | BadType => {console.log(days);
+	if(!Number(goal) || days.includes(NaN)){
+		throw new Error('malformated parameters');
+	}
 	const periodLength : number = days.length;
 	const trainigDays : number = days.filter(day => day > 0).length;
 	const target : number = goal;
@@ -41,7 +49,7 @@ const calculateExercises = (days:number[], goal:number) : Stats => {
 	return res;
 };
 
-
+/*
 try {
 	const goal  = Number(process.argv[2]);
 	const days : number[] = process.argv.slice(3).map(num => Number(num));
@@ -51,5 +59,5 @@ try {
 	calculateExercises(days, goal);
 }catch(error){
 	console.log(error.message);
-}
+}*/
 

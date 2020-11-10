@@ -3,8 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 import diagnosesRouter from './routes/diagnoses';
 import patientsRouter from './routes/patients';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 

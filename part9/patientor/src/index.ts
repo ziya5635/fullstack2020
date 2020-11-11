@@ -7,7 +7,7 @@ import cors from 'cors';
 
 const app = express();
 
-app.use(cors());
+app.use(cors());//configures cross origin resourse sharing, meaning one can prevent other domains/porotocols from accessing resources.
 
 app.use(express.json());
 

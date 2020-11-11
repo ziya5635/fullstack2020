@@ -10,7 +10,7 @@ const diagnoses_1 = __importDefault(require("./routes/diagnoses"));
 const patients_1 = __importDefault(require("./routes/patients"));
 const cors_1 = __importDefault(require("cors"));
 const app = express_1.default();
-app.use(cors_1.default());
+app.use(cors_1.default()); //configures cross origin resourse sharing, meaning one can prevent other domains/porotocols from accessing resources.
 app.use(express_1.default.json());
 const port = process.env.PORT;
 app.get('/api/ping', (_req, res) => {

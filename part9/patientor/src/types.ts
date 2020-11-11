@@ -12,3 +12,11 @@ export interface Patients{
 	gender: string,
 	ssn: string
 }
+
+export interface newPatientEntry{
+	name: string,
+	dateOfBirth: string,
+	occupation: string,
+	gender: string,
+	ssn: string
+}

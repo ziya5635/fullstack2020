@@ -14,12 +14,19 @@ const getNoSensetivePatients = () => {
     });
 };
 const addPatient = (entry) => {
-    const newPatient = Object.assign({ id: uuid_1.v4() }, entry);
-    patients_json_1.default.push(newPatient);
+    const instance = {};
+    const ent = [instance];
+    const newPatient = Object.assign({ entries: ent, id: uuid_1.v4() }, entry);
+    const pData = patients_json_1.default;
+    pData.push(newPatient);
     return newPatient;
+};
+const getPatient = (id) => {
+    return patients_json_1.default.find(p => p.id === id);
 };
 exports.default = {
     getPatients,
+    getPatient,
     getNoSensetivePatients,
     addPatient,
 };

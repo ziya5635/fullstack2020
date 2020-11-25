@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import {useStateValue} from '../state';
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
+import { find_patient } from '../state/reducer';
 
 const PatientInfo: React.FC = () => {
     const {id} = useParams<{id: string}>();
@@ -13,8 +14,7 @@ const PatientInfo: React.FC = () => {
         if(!per){
             axios.get<Patient>(`${apiBaseUrl}/patients/${id}`)
             .then(res => {
-                dispatch({type: "FIND_PATIENT", payload: res.data})
-                console.log('fetched!');
+                dispatch(find_patient(res.data))
             })
             .catch(err => console.log(err.message));
         }

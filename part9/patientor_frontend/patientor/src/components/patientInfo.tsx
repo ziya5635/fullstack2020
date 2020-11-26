@@ -19,12 +19,19 @@ const PatientInfo: React.FC = () => {
             .catch(err => console.log(err.message));
         }
     }, [dispatch, id, per]);
-    
+
     return (
         <div>
             <h2>{per?.name}</h2>
             <p>ssn: {per?.ssn}</p>
             <p>occupation: {per?.occupation}</p>
+            <div>
+                <h3>{per?.entries.length? 'entries':null}</h3>
+                <p>{per?.entries.length ? per?.entries[0].description:null}</p>
+                <ul>
+                    {per?.entries.length ? per?.entries[0].diagnosisCodes?.map(item => <li key={item}>{item}</li>):null}
+                </ul>
+            </div>
         </div>
     )
 }

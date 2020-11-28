@@ -9,10 +9,6 @@ export enum Gender {
   Female = "female",
   Other = "other"
 }
-/*
-export interface entries {
-
-}*/
 
 export interface Patient {
   id: string;

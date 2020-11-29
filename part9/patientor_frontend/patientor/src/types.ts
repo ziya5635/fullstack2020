@@ -64,3 +64,10 @@ export  interface HospitalEntry extends BaseEntry {
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
+
+export enum color {
+	'green'= 0,
+	'yellow'=1,
+	'orange'=2,
+	'red'=3,
+}

@@ -1,14 +1,16 @@
 import React, {useEffect} from 'react';
-import { Diagnosis, Patient } from '../types';
+import { Patient } from '../types';
 import { useParams } from 'react-router-dom';
 import {useStateValue} from '../state';
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
 import { find_patient } from '../state/reducer';
+import EntryDetails from './EntryDetails';
+import { Container } from 'semantic-ui-react';
 
 const PatientInfo: React.FC = () => {
     const {id} = useParams<{id: string}>();
-    const [{ selected, diagnosis }, dispatch] = useStateValue();
+    const [{ selected }, dispatch] = useStateValue();
     const per = selected.length ? selected.find(item => item.id === id) : null;
     useEffect(()=>{
         if(!per){
@@ -20,9 +22,17 @@ const PatientInfo: React.FC = () => {
         }
     }, [dispatch, id, per]);
 
-    const getDiagnosisName = (code:string): Diagnosis|undefined => diagnosis.find(item => item.code === code);
+    //const getDiagnosisName = (code:string): Diagnosis|undefined => diagnosis.find(item => item.code === code);
 
     return (
+        <Container>
+            <h2>{per?.name}</h2>
+            <p>ssn: {per?.ssn}</p>
+            <p>occupation: {per?.occupation}</p>
+            {per?.entries.map(item => <EntryDetails entry={item} key={item.id}/>)}
+        </Container>
+        
+        /*
         <div>
             <h2>{per?.name}</h2>
             <p>ssn: {per?.ssn}</p>
@@ -35,6 +45,7 @@ const PatientInfo: React.FC = () => {
                 </ul>
             </div>
         </div>
+        */
     )
 }
 //https://fullstackopen.com/en/part9/react_with_types#exercises-9-16-9-18

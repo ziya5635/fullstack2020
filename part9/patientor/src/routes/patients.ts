@@ -6,6 +6,12 @@ import {newPatientEntry} from '../types';
 
 const router = express.Router();
 
+router.get('/:id/entries', (req, res) => {
+	const id:string = req.params.id;
+	const entries = patientService.getPatientEntry(id);
+	res.send(entries);
+})
+
 router.get('/:id', (req, res) => {
 	const id:string = req.params.id;
 	const patient = patientService.getPatient(id);

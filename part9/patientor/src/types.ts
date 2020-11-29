@@ -70,7 +70,7 @@ export  interface HospitalEntry extends BaseEntry {
   export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
-  | HealthCheckEntry
-  |{};
+  | HealthCheckEntry;
+  //|{};
 
 export type PublicPatient = Omit<Patient, 'ssn' | 'entries' >

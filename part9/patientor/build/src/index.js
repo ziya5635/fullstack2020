@@ -16,7 +16,7 @@ const port = process.env.PORT;
 app.get('/api/ping', (_req, res) => {
     res.send('pong');
 });
-app.use('/api/diagnoses', diagnoses_1.default);
+app.use('/api/diagnosis', diagnoses_1.default);
 app.use('/api/patients', patients_1.default);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

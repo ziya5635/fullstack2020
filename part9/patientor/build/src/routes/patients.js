@@ -7,6 +7,11 @@ const express_1 = __importDefault(require("express"));
 const patientService_1 = __importDefault(require("../services/patientService"));
 const utils_1 = __importDefault(require("../utils"));
 const router = express_1.default.Router();
+router.get('/:id/entries', (req, res) => {
+    const id = req.params.id;
+    const entries = patientService_1.default.getPatientEntry(id);
+    res.send(entries);
+});
 router.get('/:id', (req, res) => {
     const id = req.params.id;
     const patient = patientService_1.default.getPatient(id);

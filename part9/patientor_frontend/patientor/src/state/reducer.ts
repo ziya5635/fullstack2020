@@ -17,6 +17,10 @@ export type Action =
   | {
     type: "SET_DIAGNOSIS";
     payload: Diagnosis[];
+  }
+  | {
+    type: "UPDATE_PATIENT";
+    payload: Patient;
   };
 
 export const find_patient = (patient:Patient): Action => {
@@ -33,6 +37,10 @@ export const addPatient = (patient: Patient): Action => {
 
 export const setDiagnosis = (diagnosis: Diagnosis[]): Action => {
   return {type: "SET_DIAGNOSIS", payload: diagnosis};
+}
+
+export const updatePatient = (patient: Patient): Action => {
+  return {type: "UPDATE_PATIENT", payload: patient}
 }
 
 export const reducer = (state: State, action: Action): State => {
@@ -65,6 +73,13 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         diagnosis: action.payload,
+      }
+    case "UPDATE_PATIENT":
+      const id: string = action.payload.id;
+      const updated: Patient[] = state.selected.filter((patient: Patient) => patient.id !== id);
+      return {
+        ...state,
+        selected: [...updated, action.payload]
       }
     default:
       return state;

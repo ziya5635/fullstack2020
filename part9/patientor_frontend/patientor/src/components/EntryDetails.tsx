@@ -21,7 +21,14 @@ const EntryDetails: React.FC<{entry: Entry}> = ({entry}) => {
             default:
                 return ''
         }
-    }
+    };
+    //exhaustive type checking
+    const assertNever = (value: never): never => {
+        throw new Error(
+          `Unhandled discriminated union member: ${JSON.stringify(value)}`
+        );
+      };
+
     switch (entry.type) {
         case "HealthCheck":
             return (
@@ -49,7 +56,7 @@ const EntryDetails: React.FC<{entry: Entry}> = ({entry}) => {
                 </Segment>
             )
         default:
-            return null;
+            return assertNever(entry);
     }
 }
 

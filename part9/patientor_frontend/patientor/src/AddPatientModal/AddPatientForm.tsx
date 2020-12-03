@@ -51,7 +51,7 @@ export const AddPatientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
         return errors;
       }}
     >
-      {({ isValid, dirty }) => {
+      {({ isValid, dirty }) => {console.log(dirty)
         return (
           <Form className="form ui">
             <Field

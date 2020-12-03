@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { ErrorMessage, Field, FieldProps, FormikProps } from "formik";
-import { Dropdown, DropdownProps, Form } from "semantic-ui-react";
-import { Diagnosis, Gender } from "../types";
+import { Dropdown, DropdownProps, Form, FormField } from "semantic-ui-react";
+import { Diagnosis, Gender, HealthCheckRating } from "../types";
+
 
 // structure of a single option
 export type GenderOption = {
@@ -62,16 +63,18 @@ interface NumberProps extends FieldProps {
   max: number;
 }
 
-export const NumberField: React.FC<NumberProps> = ({ field, label, min, max }) => (
+export const NumberField: React.FC<NumberProps> = ({ field, label, min, max }) => {
+  const [healthRate, setHealthRate] = useState(0);
+  //onChange={(e:any) => setHealthRate(e.target.value)} value={healthRate}
+  return(
   <Form.Field>
     <label>{label}</label>
-    <Field {...field} type='number' min={min} max={max} />
-
+    <Field {...field} type='number' min={min} max={max} onChange={(e:any) => setHealthRate(e.target.value)} value={healthRate}/>
     <div style={{ color:'red' }}>
       <ErrorMessage name={field.name} />
     </div>
   </Form.Field>
-);
+)};
 
 export const DiagnosisSelection = ({
   diagnoses,
@@ -112,3 +115,25 @@ export const DiagnosisSelection = ({
     </Form.Field>
   );
 };
+
+//new component
+
+interface DateProps extends FieldProps {
+  label: string;
+  placeholder: string;
+}
+
+export type HealthRateOption = {
+  value: HealthCheckRating;
+  label: string;
+};
+
+export const DateField: React.FC<DateProps> = ({label, placeholder, field}) => (
+  <FormField>
+    <label>{label}</label>
+    <Field {...field} type='date' placeholder={placeholder}/>
+    <div style={{ color:'red' }}>
+      <ErrorMessage name={field.name} />
+    </div>
+  </FormField>
+)

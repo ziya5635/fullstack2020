@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import { Field, Formik, Form } from "formik";
 import { Grid, Button, Modal } from "semantic-ui-react";
-import { HealthCheckRating, HealthCheckEntry } from '../types';
+import { HealthCheckEntry } from '../types';
 import { TextField, NumberField, DiagnosisSelection } from '../AddPatientModal/FormField'
 import { useStateValue } from '../state';
+import * as Yup from 'yup';
 
 export type EntryFormValues = Omit<HealthCheckEntry, 'id' >; // | 'diagnosisCodes'
 
@@ -13,10 +14,18 @@ interface Props {
     //onCancel: () => void;
   }
 
+const entrySchema = Yup.object().shape({
+    description: Yup.string().min(3, 'too short value.').required('Description is required and it should be at least 1 char.'),
+    date: Yup.date().required('Date is required and it should be at least 10 chars.'),
+    specialist: Yup.string().min(2, 'too short value.').required('Specialist is required and it should be at least 2 chars'),
+    type: Yup.string().matches(/(HealthCheck)/).required('required'),
+    healthCheckRating: Yup.number().min(0, 'not in valid range').max(3, 'not in valid range').required('requires a number between 0 and 3')
+})
+
 
 const AddEntryForm: React.FC<Props> = ({ onSubmit }) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [{ diagnosis }] = useStateValue()
+    const [{ diagnosis }] = useStateValue();
     const [error, setError] = React.useState<string | undefined>();
 
     return (
@@ -34,6 +43,7 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit }) => {
                         type: 'HealthCheck',
                     }
                 }
+                validationSchema= {entrySchema}
                 onSubmit= {onSubmit}
                 validate= {values => {
                     const requiredError = "Field is required";
@@ -56,7 +66,7 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit }) => {
                     return errors;
                 }}
                 >
-                {({isValid, dirty, setFieldValue, setFieldTouched}) => {
+                {({isValid, dirty, setFieldValue, setFieldTouched, errors, touched}) => {
                     return(
                         <Form className='form ui'>
                             <Field
@@ -65,30 +75,35 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit }) => {
                             placeHolder='Description'
                             component={TextField}
                             />
+                            {errors.description && touched.description ? (<div>{errors.description}</div>) : null}
                             <Field
                             name='specialist'
                             label='Specialist'
                             placeHolder='Specialist'
                             component={TextField}
                             />
+                            {errors.specialist && touched.specialist ? (<div>{errors.specialist}</div>) : null}
                             <Field
                             name='date'
                             label='Date'
                             placeHolder='Date'
                             component={TextField}
                             />
+                            {errors.date && touched.date ? (<div>{errors.date}</div>) : null}
                             <Field 
-                            name='helthCheckingRate'
+                            name='healthCheckingRate'
                             label='healthCheckingRate'
                             min={0}
                             max={3}
                             component={NumberField}
                             />
+                            {errors.healthCheckRating && touched.healthCheckRating ? (<div>{errors.healthCheckRating}</div>) : null}
                             <Field
                             name='type'
                             label='HealthCheck'
                             component={TextField}
                             />
+                            {errors.type && touched.type ? (<div>{errors.type}</div>) : null}
                             <DiagnosisSelection diagnoses={Object.values(diagnosis)} setFieldTouched={setFieldTouched} setFieldValue={setFieldValue} />
                             <Grid>
                                 <Grid.Column floated="left" width={5}>

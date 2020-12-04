@@ -20,6 +20,12 @@ router.get('/:id', (req, res) => {
 router.get('/', (_req, res) => {
     res.send(patientService_1.default.getNoSensetivePatients());
 });
+router.post('/:id/entries', (req, res) => {
+    const id = req.params.id;
+    const data = req.body;
+    const patient = patientService_1.default.putPatientEntry(data, id);
+    res.send(patient);
+});
 router.post('/', (req, res) => {
     const { name, occupation, dateOfBirth, ssn, gender } = utils_1.default(req.body);
     const newPatient = patientService_1.default.addPatient({ name, occupation, dateOfBirth, ssn, gender });

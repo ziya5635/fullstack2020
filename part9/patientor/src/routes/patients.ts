@@ -1,7 +1,7 @@
 import express from 'express';
 import patientService from '../services/patientService';
 import toNewPatient from '../utils';
-import {newPatientEntry} from '../types';
+import {HospitalEntry, newPatientEntry, OccupationalHealthcareEntry} from '../types';
 
 
 const router = express.Router();
@@ -21,6 +21,13 @@ router.get('/:id', (req, res) => {
 router.get('/', (_req, res) => {
 	res.send(patientService.getNoSensetivePatients());
 });
+
+router.post('/:id/entries', (req, res) => {
+	const id: string = req.params.id;
+	const data: HospitalEntry | OccupationalHealthcareEntry = req.body;
+	const patient = patientService.putPatientEntry(data, id);
+	res.send(patient);
+})
 
 router.post('/', (req, res) => {
 	const {name, occupation, dateOfBirth, ssn, gender} : newPatientEntry = toNewPatient(req.body)

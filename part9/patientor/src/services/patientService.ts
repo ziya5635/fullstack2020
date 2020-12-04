@@ -21,7 +21,8 @@ const addPatient = (entry:newPatientEntry): Omit<Patient, 'entries'> => {
 		id: uuidv4(),
 		...entry
 	}
-	const pData: Omit<Patient, 'entries'>[] = patientsData;
+	console.log(newPatient)
+	const pData:Patient[] = patientsData; //Omit<Patient, 'entries'>[]      //type changed.
 	pData.push(newPatient);
 	return newPatient;
 }
@@ -39,6 +40,22 @@ const getPatientEntry = (id:string): Entry[]|[] => {
 	return [];
 }
 
+const putPatientEntry = (entry: Entry, id:string): Patient|undefined => {
+	const new_entry:Entry = {
+		...entry,
+		id: uuidv4(),
+	}
+	const pData:Patient[] = patientsData;
+	const patient = pData.find(item => item.id === id);
+	if (patient) {
+		patient.entries = patient.entries.concat(new_entry);
+		return patient;
+	}else{
+		return undefined;
+	}
+	
+}
+
 
 export default {
 	getPatients,
@@ -46,4 +63,5 @@ export default {
 	getNoSensetivePatients,
 	addPatient,
 	getPatientEntry,
+	putPatientEntry,
 }

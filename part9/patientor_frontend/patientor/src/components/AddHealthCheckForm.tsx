@@ -6,7 +6,7 @@ import { TextField, NumberField, DiagnosisSelection } from '../AddPatientModal/F
 import { useStateValue } from '../state';
 import * as Yup from 'yup';
 
-export type EntryFormValues = Omit<HealthCheckEntry, 'id' >; // | 'diagnosisCodes'
+export type EntryFormValues = Omit<HealthCheckEntry, 'id' >
 
 
 interface Props {
@@ -22,14 +22,12 @@ const entrySchema = Yup.object().shape({
     healthCheckRating: Yup.number().min(0, 'not in valid range').max(3, 'not in valid range').required('requires a number between 0 and 3')
 })
 
-
-const AddEntryForm: React.FC<Props> = ({ onSubmit }) => {
+const AddHealthCheckForm: React.FC<Props> = ({ onSubmit }) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [{ diagnosis }] = useStateValue();
-    const [error, setError] = React.useState<string | undefined>();
 
     return (
-        <Modal onOpen={():void => setModalOpen(true)} onClose={():void => setModalOpen(false)} open={modalOpen} trigger={<Button>add entry</Button>}>
+        <Modal onOpen={():void => setModalOpen(true)} onClose={():void => setModalOpen(false)} open={modalOpen} trigger={<Button>add health check entry</Button>}>
             <Modal.Header>Add a new entry</Modal.Header>
             <Modal.Content>
                 <Formik
@@ -51,14 +49,14 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit }) => {
                     if (!values.description) {
                         errors.description = requiredError;
                     }
+                    if (!values.healthCheckRating) {
+                        errors.healthCheckRating = requiredError;
+                    }
                     if (!values.date) {
                         errors.date = requiredError;
                     }
                     if (!values.specialist) {
                         errors.specialist = requiredError;
-                    }
-                    if (!values.healthCheckRating) {
-                        errors.healthCheckRating = requiredError;
                     }
                     if (!values.type) {
                         errors.type = requiredError;
@@ -90,9 +88,10 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit }) => {
                             component={TextField}
                             />
                             {errors.date && touched.date ? (<div>{errors.date}</div>) : null}
+                            {}
                             <Field 
-                            name='healthCheckingRate'
-                            label='healthCheckingRate'
+                            name='healthCheckRating'
+                            label='healthCheckRating'
                             min={0}
                             max={3}
                             component={NumberField}
@@ -133,4 +132,4 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit }) => {
 
 }
 
-export default AddEntryForm;
+export default AddHealthCheckForm;

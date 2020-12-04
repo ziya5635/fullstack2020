@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { Entry, Patient } from '../types';
+import { Entry, OccupationalHealthcareEntry, Patient } from '../types';
 import { useParams } from 'react-router-dom';
 import {useStateValue} from '../state';
 import axios from 'axios';
@@ -7,7 +7,8 @@ import { apiBaseUrl } from '../constants';
 import { find_patient, updatePatient } from '../state/reducer';
 import EntryDetails from './EntryDetails';
 import { Container } from 'semantic-ui-react';
-import AddEntryForm from './AddEntryForm';
+import AddHealthCheckForm from './AddHealthCheckForm';
+import AddOccupationalForm from './AddOccupationalForm';
 import { HealthCheckEntry } from '../types';
 
 const PatientInfo: React.FC = () => {
@@ -24,14 +25,26 @@ const PatientInfo: React.FC = () => {
         }
     }, [dispatch, id, per]);
 
-    const submitNewEntry = async (values: Omit<HealthCheckEntry, 'id'>) => {
-        try {console.log('in submit')
+    const submitNewHealthEntry = async (values: Omit<HealthCheckEntry, 'id'>) => {
+        try {
             const entry: Omit<HealthCheckEntry, 'id'> = {
                 ...values,
             }
             const res = await axios.post<Patient>(`${apiBaseUrl}/patients/${id}/entries`, entry);
-            dispatch(updatePatient(res.data))
+            dispatch(updatePatient(res.data));
             return res.data;
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
+    const submitNewOccupationalEntry = async (values: Omit<OccupationalHealthcareEntry, 'id'>) => {
+        try {
+            const entry: Omit<OccupationalHealthcareEntry, 'id'> = {
+                ...values,
+            }
+            const res = await axios.post<Patient>(`${apiBaseUrl}/patients/${id}/entries`, entry);
+            dispatch(updatePatient(res.data));
         } catch (err) {
             console.error(err.message);
         }
@@ -43,10 +56,11 @@ const PatientInfo: React.FC = () => {
             <p>ssn: {per?.ssn}</p>
             <p>occupation: {per?.occupation}</p>
             {per?.entries.map(item => <EntryDetails entry={item} key={item.id}/>)}
-            <AddEntryForm onSubmit={submitNewEntry}/>
+            <AddHealthCheckForm onSubmit={submitNewHealthEntry}/>
+            <AddOccupationalForm onSubmit={submitNewOccupationalEntry}/>
         </Container>
         
     )
 }
-//https://fullstackopen.com/en/part9/react_with_types#exercises-9-16-9-18
+
 export default PatientInfo
